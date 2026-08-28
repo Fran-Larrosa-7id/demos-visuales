@@ -1,1507 +1,2628 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Demo conceptual — Sierra Nativa, hotel boutique ficticio en Tandil." />
-  <title>Sierra Nativa — Naturaleza Inmersiva 2.0</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Propuesta de renovación web — Hotel Boutique en Tandil</title>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Libre+Caslon+Display&display=swap" rel="stylesheet">
+    <meta
+      name="description"
+      content="Una propuesta conceptual de rediseño enfocada en una experiencia más moderna, visual, responsive y orientada a consultas y reservas."
+    />
 
-  <style>
-    :root{
-      --forest:#17332a;
-      --forest-2:#0f241d;
-      --forest-3:#0b1814;
-      --sage:#849180;
-      --moss:#5d715f;
-      --sand:#e9dfd1;
-      --cream:#f8f4ed;
-      --paper:#fcfaf6;
-      --clay:#b5795e;
-      --ink:#1f2723;
-      --muted:#6c746f;
-      --line:rgba(31,39,35,.14);
-      --white:#fff;
-      --serif:"Libre Caslon Display", Georgia, serif;
-      --sans:"DM Sans", Arial, sans-serif;
-      --ease:cubic-bezier(.2,.7,.2,1);
-    }
+    <!-- Open Graph / WhatsApp / LinkedIn / Discord / etc. -->
+    <meta property="og:type" content="website" />
 
-    *{box-sizing:border-box}
-    html{scroll-behavior:smooth}
-    body{
-      margin:0;
-      background:var(--paper);
-      color:var(--ink);
-      font-family:var(--sans);
-      overflow-x:hidden;
-      -webkit-font-smoothing:antialiased;
-    }
-    body.locked{overflow:hidden}
-    img{display:block;max-width:100%}
-    button,input,select,textarea{font:inherit}
-    a{color:inherit;text-decoration:none}
-    button{cursor:pointer}
-    :focus-visible{outline:2px solid var(--clay);outline-offset:3px}
+    <meta
+      property="og:title"
+      content="Propuesta de renovación web — Hotel Boutique en Tandil"
+    />
 
-    .container{width:min(1400px,calc(100% - 48px));margin-inline:auto}
-    .eyebrow{
-      text-transform:uppercase;
-      letter-spacing:.18em;
-      font-size:.68rem;
-      font-weight:600;
-      color:var(--clay);
-    }
-    .headline{
-      margin:.7rem 0 0;
-      font-family:var(--serif);
-      font-size:clamp(3rem,6vw,6.7rem);
-      line-height:.91;
-      font-weight:400;
-      letter-spacing:-.045em;
-      color:var(--forest);
-    }
-    .copy{
-      line-height:1.8;
-      color:#59615c;
-      font-weight:300;
-      font-size:1rem;
-    }
-    .btn{
-      border:1px solid transparent;
-      min-height:52px;
-      padding:0 1.35rem;
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      gap:.65rem;
-      font-size:.83rem;
-      font-weight:600;
-      transition:.3s var(--ease);
-      background:none;
-    }
-    .btn-dark{background:var(--forest);color:white}
-    .btn-dark:hover{background:var(--forest-2);transform:translateY(-2px)}
-    .btn-light{background:var(--cream);color:var(--forest)}
-    .btn-light:hover{background:white;transform:translateY(-2px)}
-    .btn-ghost-light{border-color:rgba(255,255,255,.5);color:white}
-    .btn-ghost-light:hover{background:rgba(255,255,255,.09)}
-    .btn-ghost-dark{border-color:rgba(23,51,42,.28);color:var(--forest)}
-    .btn-ghost-dark:hover{background:#efe9df}
+    <meta
+      property="og:description"
+      content="Una propuesta conceptual de rediseño enfocada en una experiencia más moderna, visual, responsive y orientada a consultas y reservas."
+    />
 
-    /* HEADER */
-    .header{
-      position:fixed;
-      inset:0 0 auto;
-      z-index:50;
-      color:white;
-      transition:.4s var(--ease);
-    }
-    .header.scrolled{
-      background:rgba(248,244,237,.94);
-      color:var(--forest);
-      box-shadow:0 1px 0 rgba(16,31,25,.1);
-      backdrop-filter:blur(16px);
-    }
-    .header-inner{
-      min-height:78px;
-      display:flex;
-      align-items:center;
-      gap:2rem;
-    }
-    .brand{
-      display:flex;align-items:center;gap:.85rem;flex-shrink:0
-    }
-    .brand-symbol{
-      width:31px;height:31px;
-      position:relative;
-      border:1px solid currentColor;
-      border-radius:50% 50% 48% 52%;
-    }
-    .brand-symbol:before{
-      content:"";
-      position:absolute;
-      width:12px;height:18px;
-      left:8px;top:5px;
-      border-left:1px solid currentColor;
-      border-radius:50%;
-      transform:rotate(25deg);
-    }
-    .brand-name{
-      font-family:var(--serif);
-      font-size:1.02rem;
-      letter-spacing:.08em;
-    }
-    .brand-sub{
-      margin-top:.25rem;
-      font-size:.54rem;
-      letter-spacing:.2em;
-      text-transform:uppercase;
-      opacity:.7
-    }
-    .nav{
-      margin-left:auto;
-      display:flex;
-      align-items:center;
-      gap:1.35rem;
-    }
-    .nav a{
-      position:relative;
-      font-size:.76rem;
-      opacity:.8;
-      padding:.55rem 0;
-      font-weight:500;
-    }
-    .nav a:after{
-      content:"";
-      position:absolute;
-      left:0;right:100%;bottom:0;
-      height:1px;background:currentColor;
-      transition:.3s var(--ease)
-    }
-    .nav a.active,.nav a:hover{opacity:1}
-    .nav a.active:after,.nav a:hover:after{right:0}
-    .header-actions{display:flex;gap:.6rem;align-items:center}
-    .header .reserve{
-      min-height:42px;
-      padding-inline:1rem;
-      background:rgba(255,255,255,.12);
-      border-color:rgba(255,255,255,.45);
-      color:white
-    }
-    .header.scrolled .reserve{background:var(--forest);color:white;border-color:var(--forest)}
-    .burger{
-      display:none;
-      border:0;
-      background:transparent;
-      color:currentColor;
-      width:44px;height:44px;
-      font-size:1.2rem
-    }
+    <meta property="og:url" content="TU_URL_DE_GITHUB_PAGES" />
 
-    /* HERO */
-    .hero{
-      position:relative;
-      min-height:100vh;
-      color:white;
-      overflow:hidden;
-      background:var(--forest-3);
-    }
-    .hero-bg{
-      position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
-      object-position:center;
-      transform:scale(1.02);
-      filter:saturate(.9) contrast(1.06);
-    }
-    .hero:after{
-      content:"";
-      position:absolute;inset:0;
-      background:
-        linear-gradient(180deg,rgba(8,17,14,.28),rgba(8,17,14,.06) 34%,rgba(8,17,14,.7) 100%),
-        linear-gradient(90deg,rgba(8,17,14,.5),transparent 66%);
-    }
-    .hero-grid{
-      position:relative;
-      z-index:2;
-      min-height:100vh;
-      padding-top:120px;
-      padding-bottom:4rem;
-      display:grid;
-      grid-template-columns:1fr .46fr;
-      align-items:end;
-      gap:3rem;
-    }
-    .hero-copy{max-width:980px}
-    .hero-kicker{
-      display:flex;align-items:center;gap:1rem;
-      text-transform:uppercase;
-      letter-spacing:.18em;
-      font-size:.68rem;
-      font-weight:600;
-      color:#eadfd3
-    }
-    .hero-kicker:before{content:"";width:42px;height:1px;background:currentColor}
-    .hero h1{
-      font-family:var(--serif);
-      font-size:clamp(4.8rem,10.5vw,11.7rem);
-      line-height:.78;
-      letter-spacing:-.055em;
-      font-weight:400;
-      margin:1.4rem 0 1.8rem;
-      max-width:1050px;
-    }
-    .hero h1 span{display:block;color:#e8d7c8}
-    .hero-text{
-      max-width:530px;
-      color:rgba(255,255,255,.8);
-      font-size:1rem;
-      line-height:1.78;
-      font-weight:300;
-    }
-    .hero-actions{display:flex;gap:.8rem;flex-wrap:wrap;margin-top:2rem}
-    .hero-aside{
-      align-self:end;
-      padding:1.5rem 0 .2rem 1.5rem;
-      border-left:1px solid rgba(255,255,255,.32);
-      max-width:330px;
-      justify-self:end;
-    }
-    .hero-aside strong{
-      display:block;
-      font-family:var(--serif);
-      font-size:2.2rem;
-      font-weight:400;
-      letter-spacing:.08em
-    }
-    .hero-aside p{
-      margin:.55rem 0 0;
-      color:rgba(255,255,255,.66);
-      font-size:.76rem;
-      line-height:1.55
-    }
-    .hero-bottom-label{
-      position:absolute;
-      z-index:2;
-      right:2rem;top:50%;
-      transform:rotate(90deg) translateX(50%);
-      transform-origin:right center;
-      font-size:.58rem;
-      letter-spacing:.22em;
-      text-transform:uppercase;
-      color:rgba(255,255,255,.54)
-    }
+    <meta property="og:image" content="TU_URL_DE_GITHUB_PAGES/preview.jpg" />
 
-    /* floating booking */
-    .booking-float{
-      position:relative;
-      margin-top:-1px;
-      background:var(--forest);
-      color:white;
-      z-index:5;
-    }
-    .booking-inner{
-      min-height:116px;
-      display:grid;
-      grid-template-columns:1.3fr 1fr 1fr .8fr auto;
-      align-items:stretch;
-    }
-    .book-field{
-      display:flex;
-      flex-direction:column;
-      justify-content:center;
-      padding:1.2rem 1.45rem;
-      border-right:1px solid rgba(255,255,255,.12)
-    }
-    .book-field label{
-      font-size:.61rem;
-      letter-spacing:.14em;
-      text-transform:uppercase;
-      color:#c9bdb2;
-      margin-bottom:.45rem
-    }
-    .book-field input,.book-field select{
-      border:0;background:transparent;color:white;outline:0;
-      color-scheme:dark;
-      width:100%;
-      font-size:.9rem
-    }
-    .booking-inner .btn{height:100%;min-width:190px;border-radius:0}
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
 
-    /* manifesto */
-    .manifesto{
-      padding:10rem 0 9rem;
-      background:var(--paper);
-      position:relative;
-    }
-    .manifesto-grid{
-      display:grid;
-      grid-template-columns:.56fr 1.05fr .72fr;
-      gap:clamp(2rem,5vw,5rem);
-      align-items:start;
-    }
-    .manifesto-left{
-      position:sticky;
-      top:120px;
-      padding-top:.8rem
-    }
-    .manifesto-left p{max-width:320px}
-    .manifesto-main img{
-      height:760px;width:100%;object-fit:cover
-    }
-    .manifesto-main .big-quote{
-      font-family:var(--serif);
-      color:var(--forest);
-      font-size:clamp(2.4rem,4vw,4.5rem);
-      line-height:1.03;
-      margin:2.5rem 0 0
-    }
-    .manifesto-side{
-      padding-top:8rem
-    }
-    .manifesto-side img{
-      height:360px;width:100%;object-fit:cover;margin-bottom:1.2rem
-    }
-    .tiny{
-      font-size:.7rem;
-      line-height:1.5;
-      color:var(--muted)
-    }
+    <meta name="twitter:card" content="summary_large_image" />
 
-    /* gallery strip */
-    .photo-story{
-      background:var(--forest-3);
-      color:white;
-      padding:7rem 0 8rem;
-      overflow:hidden;
-    }
-    .photo-story .headline{color:white;max-width:820px}
-    .story-head{
-      display:flex;align-items:end;justify-content:space-between;gap:3rem;
-      margin-bottom:2.8rem
-    }
-    .story-head .copy{color:rgba(255,255,255,.65);max-width:430px;margin:0}
-    .story-actions{
-      display:flex;
-      align-items:center;
-      justify-content:flex-end;
-      gap:.7rem;
-      margin-top:1.4rem;
-    }
-    .story-counter{
-      min-width:62px;
-      text-align:center;
-      font-size:.66rem;
-      letter-spacing:.12em;
-      color:rgba(255,255,255,.6);
-    }
-    .story-arrow{
-      width:54px;
-      height:54px;
-      border:1px solid rgba(255,255,255,.32);
-      background:rgba(255,255,255,.06);
-      color:white;
-      display:grid;
-      place-items:center;
-      font-size:1.25rem;
-      transition:.3s var(--ease);
-    }
-    .story-arrow:hover{
-      background:var(--cream);
-      color:var(--forest);
-      border-color:var(--cream);
-      transform:translateY(-2px);
-    }
-    .story-track{
-      display:flex;
-      gap:1rem;
-      overflow:auto;
-      scroll-snap-type:x mandatory;
-      scrollbar-width:none;
-      padding-left:max(24px,calc((100vw - 1400px)/2));
-      padding-right:24px;
-    }
-    .story-track::-webkit-scrollbar{display:none}
-    .story-card{
-      position:relative;
-      flex:0 0 min(72vw,940px);
-      height:min(68vh,720px);
-      scroll-snap-align:start;
-      overflow:hidden;
-      background:#17211d;
-      cursor:pointer;
-    }
-    .story-card.small{flex-basis:min(36vw,500px)}
-    .story-card img{
-      width:100%;height:100%;object-fit:cover;
-      transition:transform .8s var(--ease),filter .4s
-    }
-    .story-card:hover img{transform:scale(1.025);filter:saturate(1.04)}
-    .story-overlay{
-      position:absolute;inset:auto 0 0;
-      padding:5rem 1.4rem 1.4rem;
-      background:linear-gradient(transparent,rgba(8,16,13,.72))
-    }
-    .story-overlay strong{font-family:var(--serif);font-size:1.5rem;font-weight:400}
-    .story-overlay span{display:block;margin-top:.35rem;font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:#d8c7b8}
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Libre+Caslon+Display&display=swap"
+      rel="stylesheet"
+    />
 
-    /* rooms */
-    .rooms{
-      padding:9rem 0;
-      background:#efe8dd;
-    }
-    .rooms-top{
-      display:grid;
-      grid-template-columns:1fr .5fr;
-      align-items:end;
-      gap:4rem;
-      margin-bottom:3rem
-    }
-    .rooms-top .copy{margin:0}
-    .room-nav{
-      display:flex;gap:1.6rem;overflow:auto;scrollbar-width:none;
-      border-bottom:1px solid rgba(23,51,42,.16);
-      margin-bottom:2.4rem
-    }
-    .room-nav::-webkit-scrollbar{display:none}
-    .room-tab{
-      flex:none;border:0;background:transparent;
-      color:#7a7f7b;
-      padding:0 0 1rem;
-      border-bottom:2px solid transparent;
-      font-size:.82rem;
-      font-weight:500;
-      white-space:nowrap
-    }
-    .room-tab span{font-size:.61rem;color:var(--clay);margin-right:.35rem}
-    .room-tab.active{color:var(--forest);border-bottom-color:var(--clay)}
-    .room-shell{
-      display:grid;
-      grid-template-columns:1.28fr .72fr;
-      min-height:650px;
-      background:var(--paper);
-    }
-    .room-media{position:relative;overflow:hidden}
-    .room-media img{
-      width:100%;height:100%;object-fit:cover;min-height:650px;
-      transition:.4s var(--ease)
-    }
-    .room-controls{
-      position:absolute;left:1.2rem;bottom:1.2rem;
-      display:flex;align-items:center;
-      background:rgba(11,24,20,.78);
-      color:white;
-      backdrop-filter:blur(8px)
-    }
-    .room-controls button{
-      width:48px;height:48px;border:0;background:transparent;color:white
-    }
-    .room-controls span{
-      font-size:.64rem;letter-spacing:.12em;padding:0 .9rem
-    }
-    .room-detail{
-      padding:clamp(2rem,5vw,5rem);
-      display:flex;
-      flex-direction:column;
-      justify-content:center
-    }
-    .room-detail h3{
-      margin:0;
-      font-family:var(--serif);
-      color:var(--forest);
-      font-size:clamp(3rem,4vw,5rem);
-      font-weight:400;
-      line-height:.95
-    }
-    .room-desc{margin:1.5rem 0 1.8rem}
-    .facts{
-      display:grid;grid-template-columns:1fr 1fr;gap:1.2rem 2rem;
-      border-top:1px solid var(--line);
-      border-bottom:1px solid var(--line);
-      padding:1.3rem 0
-    }
-    .fact small{
-      display:block;
-      font-size:.58rem;letter-spacing:.13em;text-transform:uppercase;
-      color:#8b8e8b;margin-bottom:.3rem
-    }
-    .fact strong{font-size:.85rem;font-weight:500;color:var(--forest)}
-    .tags{display:flex;gap:.55rem;flex-wrap:wrap;margin:1.5rem 0}
-    .tag{
-      padding:.5rem .7rem;
-      border:1px solid rgba(23,51,42,.17);
-      font-size:.66rem;color:#626862
-    }
-    .room-actions{display:flex;gap:.7rem;flex-wrap:wrap;margin-top:1rem}
-
-    /* experiences */
-    .experience{
-      position:relative;
-      min-height:88vh;
-      display:flex;
-      align-items:center;
-      color:white;
-      overflow:hidden
-    }
-    .experience img{
-      position:absolute;inset:0;width:100%;height:100%;object-fit:cover
-    }
-    .experience:after{
-      content:"";position:absolute;inset:0;
-      background:linear-gradient(90deg,rgba(9,23,18,.8),rgba(9,23,18,.2) 62%,rgba(9,23,18,.05))
-    }
-    .experience-inner{position:relative;z-index:2;width:100%;padding:8rem 0}
-    .experience-content{max-width:650px}
-    .experience .headline{color:white}
-    .experience .copy{color:rgba(255,255,255,.76);max-width:540px;margin:1.5rem 0}
-    .activity-line{
-      display:flex;flex-wrap:wrap;gap:.7rem 1.7rem;
-      margin:1.7rem 0 2rem;
-      font-size:.69rem;letter-spacing:.12em;text-transform:uppercase;color:#e5d6c9
-    }
-
-    /* gastronomy */
-    .food{
-      padding:9rem 0;
-      background:#f1e6d8;
-    }
-    .food-grid{
-      display:grid;
-      grid-template-columns:.64fr 1.1fr;
-      gap:clamp(3rem,8vw,8rem);
-      align-items:center
-    }
-    .food-copy .headline{font-size:clamp(3.7rem,6vw,6.6rem)}
-    .food-copy .copy{margin:1.7rem 0;max-width:460px}
-    .food-collage{
-      display:grid;
-      grid-template-columns:1.2fr .8fr;
-      grid-template-rows:420px 240px;
-      gap:1rem
-    }
-    .food-collage img{width:100%;height:100%;object-fit:cover}
-    .food-collage img:first-child{grid-row:1/3}
-    .food-collage img:nth-child(3){transform:translateX(-3rem);width:calc(100% + 3rem)}
-
-    /* wellness */
-    .wellness{
-      padding:10rem 0;
-      background:#dfe5dd
-    }
-    .wellness-grid{
-      display:grid;
-      grid-template-columns:1fr .78fr;
-      gap:clamp(4rem,8vw,9rem);
-      align-items:center
-    }
-    .wellness-media{
-      position:relative;
-      padding-bottom:4rem;padding-left:4rem
-    }
-    .wellness-media .main{width:100%;height:680px;object-fit:cover}
-    .wellness-media .small{
-      position:absolute;left:0;bottom:0;width:43%;height:260px;
-      object-fit:cover;border:10px solid #dfe5dd
-    }
-    .wellness-list{
-      margin:2rem 0 2.2rem;
-      border-top:1px solid rgba(23,51,42,.2)
-    }
-    .well-row{
-      display:grid;
-      grid-template-columns:48px 1fr;
-      gap:1rem;
-      padding:1rem 0;
-      border-bottom:1px solid rgba(23,51,42,.2)
-    }
-    .well-row span:first-child{font-family:var(--serif);font-size:1.55rem;color:var(--clay)}
-    .well-row span:last-child{font-size:.9rem;line-height:1.55;color:#4f5b54}
-
-    /* events */
-    .events{
-      padding:8.5rem 0;
-      background:var(--forest-2);
-      color:white
-    }
-    .events .headline{color:white}
-    .events-top{
-      display:grid;
-      grid-template-columns:1fr .48fr;
-      gap:4rem;
-      align-items:end;
-      margin-bottom:3rem
-    }
-    .events .copy{color:rgba(255,255,255,.66);margin:0}
-    .events-layout{
-      display:grid;
-      grid-template-columns:1.25fr .75fr;
-      gap:1rem
-    }
-    .events-layout .main{
-      height:570px;width:100%;object-fit:cover
-    }
-    .events-side{display:grid;grid-template-rows:1fr 1fr;gap:1rem}
-    .events-side img{width:100%;height:277px;object-fit:cover}
-    .event-meta{
-      display:flex;align-items:center;justify-content:space-between;
-      gap:2rem;
-      margin-top:2rem
-    }
-    .event-stats{display:flex;gap:2.7rem;flex-wrap:wrap}
-    .event-stat small{display:block;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:#c8bbae;margin-bottom:.35rem}
-    .event-stat strong{font-family:var(--serif);font-size:1.3rem;font-weight:400}
-
-    /* contact */
-    .contact{
-      padding:9rem 0;
-      background:var(--paper)
-    }
-    .contact-grid{
-      display:grid;
-      grid-template-columns:.7fr 1fr;
-      gap:clamp(4rem,10vw,10rem)
-    }
-    .contact-lines{margin-top:2.2rem;border-top:1px solid var(--line)}
-    .contact-line{
-      display:flex;justify-content:space-between;gap:1rem;
-      padding:1rem 0;border-bottom:1px solid var(--line);font-size:.85rem
-    }
-    .contact-line span:first-child{color:var(--muted)}
-    .contact-form{
-      background:#f0eadf;
-      padding:2.4rem
-    }
-    .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
-    .field{margin-bottom:1rem}
-    .field.full{grid-column:1/-1}
-    .field label{
-      display:block;font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;
-      color:var(--moss);margin-bottom:.5rem
-    }
-    .field input,.field select,.field textarea{
-      width:100%;border:0;border-bottom:1px solid #bfb6aa;background:transparent;
-      padding:.75rem 0;outline:0;color:var(--ink);border-radius:0
-    }
-    .field input:focus,.field select:focus,.field textarea:focus{border-bottom-color:var(--forest)}
-    .map{
-      margin-top:4rem;
-      min-height:360px;
-      background:
-        linear-gradient(rgba(10,25,20,.08),rgba(10,25,20,.08)),
-        url("https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1800&q=85") center/cover;
-      display:flex;align-items:flex-end;justify-content:flex-end;padding:1rem
-    }
-
-    /* final */
-    .final{
-      min-height:78vh;
-      position:relative;
-      display:grid;place-items:center;
-      color:white;text-align:center;overflow:hidden
-    }
-    .final img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-    .final:after{
-      content:"";position:absolute;inset:0;
-      background:linear-gradient(rgba(8,18,14,.22),rgba(8,18,14,.7))
-    }
-    .final-inner{position:relative;z-index:2;padding:5rem 1.5rem}
-    .final h2{
-      font-family:var(--serif);
-      font-size:clamp(4rem,8vw,8.5rem);
-      line-height:.9;
-      letter-spacing:-.05em;
-      font-weight:400;
-      margin:0 auto 1.3rem;
-      max-width:1050px
-    }
-    .final p{max-width:520px;margin:0 auto 2rem;color:rgba(255,255,255,.78);line-height:1.7}
-
-    footer{
-      background:#0e211a;color:white;padding:4rem 0 2rem
-    }
-    .footer-grid{
-      display:grid;grid-template-columns:1.3fr .7fr .7fr .7fr;
-      gap:3rem;padding-bottom:3rem;border-bottom:1px solid rgba(255,255,255,.11)
-    }
-    footer h4{font-size:.61rem;letter-spacing:.13em;text-transform:uppercase;color:rgba(255,255,255,.46);margin:0 0 1rem}
-    footer ul{list-style:none;padding:0;margin:0}
-    footer li{margin:.55rem 0;font-size:.82rem;color:rgba(255,255,255,.72)}
-    .foot-note{padding-top:1.4rem;display:flex;justify-content:space-between;gap:1rem;color:rgba(255,255,255,.37);font-size:.68rem}
-
-    /* drawer */
-    .backdrop{
-      position:fixed;inset:0;z-index:80;
-      background:rgba(7,15,12,.64);
-      backdrop-filter:blur(3px);
-      opacity:0;pointer-events:none;transition:.3s
-    }
-    .backdrop.open{opacity:1;pointer-events:auto}
-    .drawer{
-      position:fixed;right:0;top:0;bottom:0;z-index:90;
-      width:min(520px,100%);
-      background:var(--paper);
-      transform:translateX(100%);
-      transition:.4s var(--ease);
-      overflow:auto
-    }
-    .drawer.open{transform:none}
-    .drawer-head{
-      padding:2rem;border-bottom:1px solid var(--line);
-      display:flex;justify-content:space-between;align-items:flex-start
-    }
-    .drawer-head h3{
-      font-family:var(--serif);
-      color:var(--forest);
-      font-size:2.4rem;font-weight:400;line-height:1;margin:.5rem 0 0
-    }
-    .drawer-close{border:0;background:transparent;color:var(--forest);font-size:1.6rem}
-    .drawer-body{padding:2rem}
-    .room-summary{
-      background:#eee6da;
-      display:grid;grid-template-columns:92px 1fr;gap:1rem;align-items:center;
-      padding:1rem;margin-bottom:1.7rem
-    }
-    .room-summary img{width:92px;height:72px;object-fit:cover}
-    .room-summary small{font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:#7f827e}
-    .room-summary strong{display:block;color:var(--forest);margin-top:.25rem}
-
-    /* lightbox */
-    .lightbox{
-      position:fixed;inset:0;z-index:100;
-      background:rgba(6,11,9,.96);
-      display:none;place-items:center;padding:5vw
-    }
-    .lightbox.open{display:grid}
-    .lightbox img{max-width:92vw;max-height:86vh}
-    .lightbox-close{
-      position:absolute;top:1.4rem;right:1.4rem;
-      color:white;background:transparent;border:0;font-size:2rem
-    }
-
-    /* mobile menu */
-    .mobile-menu{
-      position:fixed;inset:0;z-index:70;
-      background:var(--forest);
-      color:white;
-      transform:translateX(100%);
-      transition:.4s var(--ease);
-      padding:1.2rem;
-      display:flex;flex-direction:column
-    }
-    .mobile-menu.open{transform:none}
-    .mobile-menu-top{display:flex;justify-content:space-between;align-items:center}
-    .mobile-menu nav{display:grid;margin:auto 0}
-    .mobile-menu nav a{
-      font-family:var(--serif);
-      font-size:2.3rem;
-      padding:.75rem 0;
-      border-bottom:1px solid rgba(255,255,255,.12)
-    }
-    .mobile-close{border:0;background:transparent;color:white;font-size:1.8rem}
-
-    .reveal{opacity:0;transform:translateY(25px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
-    .reveal.visible{opacity:1;transform:none}
-    .mobile-sticky{display:none}
-
-    @media(max-width:1120px){
-      .nav{gap:.85rem}
-      .nav a{font-size:.7rem}
-      .header .reserve{display:none}
-      .hero-grid{grid-template-columns:1fr .35fr}
-    }
-
-    @media(max-width:920px){
-      .container{width:min(100% - 32px,1400px)}
-      .nav{display:none}
-      .burger{display:block}
-      .hero-grid{grid-template-columns:1fr}
-      .hero-aside{display:none}
-      .booking-inner{grid-template-columns:1fr 1fr}
-      .book-field:first-child{grid-column:1/-1}
-      .booking-inner .btn{grid-column:1/-1;height:58px}
-      .manifesto-grid{grid-template-columns:1fr 1fr}
-      .manifesto-left{position:static;grid-column:1/-1;max-width:650px}
-      .manifesto-main img{height:560px}
-      .manifesto-side{padding-top:4rem}
-      .rooms-top,.events-top{grid-template-columns:1fr;gap:1.5rem}
-      .room-shell{grid-template-columns:1fr}
-      .room-media img{min-height:500px;height:500px}
-      .food-grid,.wellness-grid,.contact-grid{grid-template-columns:1fr}
-      .food-copy{order:2}
-      .food-collage{order:1}
-      .wellness-media{padding-left:2rem}
-      .events-layout{grid-template-columns:1fr}
-      .events-layout .main{height:470px}
-      .events-side{grid-template-columns:1fr 1fr;grid-template-rows:1fr}
-      .events-side img{height:230px}
-      .footer-grid{grid-template-columns:1fr 1fr}
-    }
-
-    @media(max-width:640px){
-      .container{width:min(100% - 24px,1400px)}
-      .header-inner{min-height:68px}
-      .brand-sub{display:none}
-      .hero-grid{padding-top:100px;padding-bottom:5rem}
-      .hero h1{font-size:clamp(4.4rem,20vw,6.6rem)}
-      .hero-text{font-size:.92rem}
-      .hero-actions{display:grid}
-      .hero-actions .btn{width:100%}
-      .hero-bottom-label{display:none}
-      .booking-float{display:none}
-      .manifesto,.rooms,.food,.wellness,.events,.contact{padding:6rem 0}
-      .manifesto-grid{grid-template-columns:1fr}
-      .manifesto-left{grid-column:auto}
-      .manifesto-main img{height:430px}
-      .manifesto-main .big-quote{font-size:2.7rem}
-      .manifesto-side{padding-top:0}
-      .manifesto-side img{height:250px}
-      .photo-story{padding:5.5rem 0}
-      .story-head{display:block}
-      .story-head .copy{margin-top:1rem}
-      .story-actions{
-        justify-content:flex-start;
-        margin-top:1.3rem;
+    <style>
+      :root {
+        --forest: #17332a;
+        --forest-2: #0f241d;
+        --forest-3: #0b1814;
+        --sage: #849180;
+        --moss: #5d715f;
+        --sand: #e9dfd1;
+        --cream: #f8f4ed;
+        --paper: #fcfaf6;
+        --clay: #b5795e;
+        --ink: #1f2723;
+        --muted: #6c746f;
+        --line: rgba(31, 39, 35, 0.14);
+        --white: #fff;
+        --serif: "Libre Caslon Display", Georgia, serif;
+        --sans: "DM Sans", Arial, sans-serif;
+        --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
       }
-      .story-arrow{
-        width:48px;
-        height:48px;
-      }
-      .story-card{flex-basis:86vw;height:480px}
-      .story-card.small{flex-basis:72vw}
-      .room-shell{min-height:auto}
-      .room-media img{height:360px;min-height:360px}
-      .room-detail{padding:1.7rem}
-      .room-detail h3{font-size:3rem}
-      .room-actions{display:grid}
-      .room-actions .btn{width:100%}
-      .experience{min-height:760px}
-      .food-collage{grid-template-columns:1fr 1fr;grid-template-rows:290px 170px}
-      .food-collage img:first-child{grid-column:1/-1;grid-row:auto}
-      .food-collage img:nth-child(3){transform:none;width:100%}
-      .wellness-media{padding-left:1rem;padding-bottom:2.7rem}
-      .wellness-media .main{height:430px}
-      .wellness-media .small{height:170px;width:50%;border-width:7px}
-      .events-layout .main{height:340px}
-      .events-side img{height:160px}
-      .event-meta{align-items:flex-start;flex-direction:column}
-      .form-grid{grid-template-columns:1fr}
-      .contact-form{padding:1.4rem}
-      .map{min-height:260px}
-      .final{min-height:650px}
-      .footer-grid{grid-template-columns:1fr}
-      .foot-note{flex-direction:column}
-      .mobile-sticky{
-        display:grid;
-        grid-template-columns:1fr 60px;
-        position:fixed;z-index:45;left:0;right:0;bottom:0;
-        background:var(--forest);
-        box-shadow:0 -8px 25px rgba(0,0,0,.14)
-      }
-      .mobile-sticky button,.mobile-sticky a{
-        min-height:56px;border:0;background:transparent;color:white;
-        display:grid;place-items:center;font-size:.77rem;font-weight:600
-      }
-      .mobile-sticky a{border-left:1px solid rgba(255,255,255,.14);font-size:1.2rem}
-      footer{padding-bottom:5.5rem}
-    }
-  </style>
-</head>
 
-<body>
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        margin: 0;
+        background: var(--paper);
+        color: var(--ink);
+        font-family: var(--sans);
+        overflow-x: hidden;
+        -webkit-font-smoothing: antialiased;
+      }
+      body.locked {
+        overflow: hidden;
+      }
+      img {
+        display: block;
+        max-width: 100%;
+      }
+      button,
+      input,
+      select,
+      textarea {
+        font: inherit;
+      }
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+      button {
+        cursor: pointer;
+      }
+      :focus-visible {
+        outline: 2px solid var(--clay);
+        outline-offset: 3px;
+      }
 
-<header class="header" id="header">
-  <div class="container header-inner">
-    <a class="brand" href="#galeria">
-      <span class="brand-symbol"></span>
-      <span>
+      .container {
+        width: min(1400px, calc(100% - 48px));
+        margin-inline: auto;
+      }
+      .eyebrow {
+        text-transform: uppercase;
+        letter-spacing: 0.18em;
+        font-size: 0.68rem;
+        font-weight: 600;
+        color: var(--clay);
+      }
+      .headline {
+        margin: 0.7rem 0 0;
+        font-family: var(--serif);
+        font-size: clamp(3rem, 6vw, 6.7rem);
+        line-height: 0.91;
+        font-weight: 400;
+        letter-spacing: -0.045em;
+        color: var(--forest);
+      }
+      .copy {
+        line-height: 1.8;
+        color: #59615c;
+        font-weight: 300;
+        font-size: 1rem;
+      }
+      .btn {
+        border: 1px solid transparent;
+        min-height: 52px;
+        padding: 0 1.35rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.65rem;
+        font-size: 0.83rem;
+        font-weight: 600;
+        transition: 0.3s var(--ease);
+        background: none;
+      }
+      .btn-dark {
+        background: var(--forest);
+        color: white;
+      }
+      .btn-dark:hover {
+        background: var(--forest-2);
+        transform: translateY(-2px);
+      }
+      .btn-light {
+        background: var(--cream);
+        color: var(--forest);
+      }
+      .btn-light:hover {
+        background: white;
+        transform: translateY(-2px);
+      }
+      .btn-ghost-light {
+        border-color: rgba(255, 255, 255, 0.5);
+        color: white;
+      }
+      .btn-ghost-light:hover {
+        background: rgba(255, 255, 255, 0.09);
+      }
+      .btn-ghost-dark {
+        border-color: rgba(23, 51, 42, 0.28);
+        color: var(--forest);
+      }
+      .btn-ghost-dark:hover {
+        background: #efe9df;
+      }
+
+      /* HEADER */
+      .header {
+        position: fixed;
+        inset: 0 0 auto;
+        z-index: 50;
+        color: white;
+        transition: 0.4s var(--ease);
+      }
+      .header.scrolled {
+        background: rgba(248, 244, 237, 0.94);
+        color: var(--forest);
+        box-shadow: 0 1px 0 rgba(16, 31, 25, 0.1);
+        backdrop-filter: blur(16px);
+      }
+      .header-inner {
+        min-height: 78px;
+        display: flex;
+        align-items: center;
+        gap: 2rem;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 0.85rem;
+        flex-shrink: 0;
+      }
+      .brand-symbol {
+        width: 31px;
+        height: 31px;
+        position: relative;
+        border: 1px solid currentColor;
+        border-radius: 50% 50% 48% 52%;
+      }
+      .brand-symbol:before {
+        content: "";
+        position: absolute;
+        width: 12px;
+        height: 18px;
+        left: 8px;
+        top: 5px;
+        border-left: 1px solid currentColor;
+        border-radius: 50%;
+        transform: rotate(25deg);
+      }
+      .brand-name {
+        font-family: var(--serif);
+        font-size: 1.02rem;
+        letter-spacing: 0.08em;
+      }
+      .brand-sub {
+        margin-top: 0.25rem;
+        font-size: 0.54rem;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        opacity: 0.7;
+      }
+      .nav {
+        margin-left: auto;
+        display: flex;
+        align-items: center;
+        gap: 1.35rem;
+      }
+      .nav a {
+        position: relative;
+        font-size: 0.76rem;
+        opacity: 0.8;
+        padding: 0.55rem 0;
+        font-weight: 500;
+      }
+      .nav a:after {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 100%;
+        bottom: 0;
+        height: 1px;
+        background: currentColor;
+        transition: 0.3s var(--ease);
+      }
+      .nav a.active,
+      .nav a:hover {
+        opacity: 1;
+      }
+      .nav a.active:after,
+      .nav a:hover:after {
+        right: 0;
+      }
+      .header-actions {
+        display: flex;
+        gap: 0.6rem;
+        align-items: center;
+      }
+      .header .reserve {
+        min-height: 42px;
+        padding-inline: 1rem;
+        background: rgba(255, 255, 255, 0.12);
+        border-color: rgba(255, 255, 255, 0.45);
+        color: white;
+      }
+      .header.scrolled .reserve {
+        background: var(--forest);
+        color: white;
+        border-color: var(--forest);
+      }
+      .burger {
+        display: none;
+        border: 0;
+        background: transparent;
+        color: currentColor;
+        width: 44px;
+        height: 44px;
+        font-size: 1.2rem;
+      }
+
+      /* HERO */
+      .hero {
+        position: relative;
+        min-height: 100vh;
+        color: white;
+        overflow: hidden;
+        background: var(--forest-3);
+      }
+      .hero-bg {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+        transform: scale(1.02);
+        filter: saturate(0.9) contrast(1.06);
+      }
+      .hero:after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background:
+          linear-gradient(
+            180deg,
+            rgba(8, 17, 14, 0.28),
+            rgba(8, 17, 14, 0.06) 34%,
+            rgba(8, 17, 14, 0.7) 100%
+          ),
+          linear-gradient(90deg, rgba(8, 17, 14, 0.5), transparent 66%);
+      }
+      .hero-grid {
+        position: relative;
+        z-index: 2;
+        min-height: 100vh;
+        padding-top: 120px;
+        padding-bottom: 4rem;
+        display: grid;
+        grid-template-columns: 1fr 0.46fr;
+        align-items: end;
+        gap: 3rem;
+      }
+      .hero-copy {
+        max-width: 980px;
+      }
+      .hero-kicker {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        text-transform: uppercase;
+        letter-spacing: 0.18em;
+        font-size: 0.68rem;
+        font-weight: 600;
+        color: #eadfd3;
+      }
+      .hero-kicker:before {
+        content: "";
+        width: 42px;
+        height: 1px;
+        background: currentColor;
+      }
+      .hero h1 {
+        font-family: var(--serif);
+        font-size: clamp(4.8rem, 10.5vw, 11.7rem);
+        line-height: 0.78;
+        letter-spacing: -0.055em;
+        font-weight: 400;
+        margin: 1.4rem 0 1.8rem;
+        max-width: 1050px;
+      }
+      .hero h1 span {
+        display: block;
+        color: #e8d7c8;
+      }
+      .hero-text {
+        max-width: 530px;
+        color: rgba(255, 255, 255, 0.8);
+        font-size: 1rem;
+        line-height: 1.78;
+        font-weight: 300;
+      }
+      .hero-actions {
+        display: flex;
+        gap: 0.8rem;
+        flex-wrap: wrap;
+        margin-top: 2rem;
+      }
+      .hero-aside {
+        align-self: end;
+        padding: 1.5rem 0 0.2rem 1.5rem;
+        border-left: 1px solid rgba(255, 255, 255, 0.32);
+        max-width: 330px;
+        justify-self: end;
+      }
+      .hero-aside strong {
+        display: block;
+        font-family: var(--serif);
+        font-size: 2.2rem;
+        font-weight: 400;
+        letter-spacing: 0.08em;
+      }
+      .hero-aside p {
+        margin: 0.55rem 0 0;
+        color: rgba(255, 255, 255, 0.66);
+        font-size: 0.76rem;
+        line-height: 1.55;
+      }
+      .hero-bottom-label {
+        position: absolute;
+        z-index: 2;
+        right: 2rem;
+        top: 50%;
+        transform: rotate(90deg) translateX(50%);
+        transform-origin: right center;
+        font-size: 0.58rem;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.54);
+      }
+
+      /* floating booking */
+      .booking-float {
+        position: relative;
+        margin-top: -1px;
+        background: var(--forest);
+        color: white;
+        z-index: 5;
+      }
+      .booking-inner {
+        min-height: 116px;
+        display: grid;
+        grid-template-columns: 1.3fr 1fr 1fr 0.8fr auto;
+        align-items: stretch;
+      }
+      .book-field {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 1.2rem 1.45rem;
+        border-right: 1px solid rgba(255, 255, 255, 0.12);
+      }
+      .book-field label {
+        font-size: 0.61rem;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: #c9bdb2;
+        margin-bottom: 0.45rem;
+      }
+      .book-field input,
+      .book-field select {
+        border: 0;
+        background: transparent;
+        color: white;
+        outline: 0;
+        color-scheme: dark;
+        width: 100%;
+        font-size: 0.9rem;
+      }
+      .booking-inner .btn {
+        height: 100%;
+        min-width: 190px;
+        border-radius: 0;
+      }
+
+      /* manifesto */
+      .manifesto {
+        padding: 10rem 0 9rem;
+        background: var(--paper);
+        position: relative;
+      }
+      .manifesto-grid {
+        display: grid;
+        grid-template-columns: 0.56fr 1.05fr 0.72fr;
+        gap: clamp(2rem, 5vw, 5rem);
+        align-items: start;
+      }
+      .manifesto-left {
+        position: sticky;
+        top: 120px;
+        padding-top: 0.8rem;
+      }
+      .manifesto-left p {
+        max-width: 320px;
+      }
+      .manifesto-main img {
+        height: 760px;
+        width: 100%;
+        object-fit: cover;
+      }
+      .manifesto-main .big-quote {
+        font-family: var(--serif);
+        color: var(--forest);
+        font-size: clamp(2.4rem, 4vw, 4.5rem);
+        line-height: 1.03;
+        margin: 2.5rem 0 0;
+      }
+      .manifesto-side {
+        padding-top: 8rem;
+      }
+      .manifesto-side img {
+        height: 360px;
+        width: 100%;
+        object-fit: cover;
+        margin-bottom: 1.2rem;
+      }
+      .tiny {
+        font-size: 0.7rem;
+        line-height: 1.5;
+        color: var(--muted);
+      }
+
+      /* gallery strip */
+      .photo-story {
+        background: var(--forest-3);
+        color: white;
+        padding: 7rem 0 8rem;
+        overflow: hidden;
+      }
+      .photo-story .headline {
+        color: white;
+        max-width: 820px;
+      }
+      .story-head {
+        display: flex;
+        align-items: end;
+        justify-content: space-between;
+        gap: 3rem;
+        margin-bottom: 2.8rem;
+      }
+      .story-head .copy {
+        color: rgba(255, 255, 255, 0.65);
+        max-width: 430px;
+        margin: 0;
+      }
+      .story-actions {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 0.7rem;
+        margin-top: 1.4rem;
+      }
+      .story-counter {
+        min-width: 62px;
+        text-align: center;
+        font-size: 0.66rem;
+        letter-spacing: 0.12em;
+        color: rgba(255, 255, 255, 0.6);
+      }
+      .story-arrow {
+        width: 54px;
+        height: 54px;
+        border: 1px solid rgba(255, 255, 255, 0.32);
+        background: rgba(255, 255, 255, 0.06);
+        color: white;
+        display: grid;
+        place-items: center;
+        font-size: 1.25rem;
+        transition: 0.3s var(--ease);
+      }
+      .story-arrow:hover {
+        background: var(--cream);
+        color: var(--forest);
+        border-color: var(--cream);
+        transform: translateY(-2px);
+      }
+      .story-track {
+        display: flex;
+        gap: 1rem;
+        overflow: auto;
+        scroll-snap-type: x mandatory;
+        scrollbar-width: none;
+        padding-left: max(24px, calc((100vw - 1400px) / 2));
+        padding-right: 24px;
+      }
+      .story-track::-webkit-scrollbar {
+        display: none;
+      }
+      .story-card {
+        position: relative;
+        flex: 0 0 min(72vw, 940px);
+        height: min(68vh, 720px);
+        scroll-snap-align: start;
+        overflow: hidden;
+        background: #17211d;
+        cursor: pointer;
+      }
+      .story-card.small {
+        flex-basis: min(36vw, 500px);
+      }
+      .story-card img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition:
+          transform 0.8s var(--ease),
+          filter 0.4s;
+      }
+      .story-card:hover img {
+        transform: scale(1.025);
+        filter: saturate(1.04);
+      }
+      .story-overlay {
+        position: absolute;
+        inset: auto 0 0;
+        padding: 5rem 1.4rem 1.4rem;
+        background: linear-gradient(transparent, rgba(8, 16, 13, 0.72));
+      }
+      .story-overlay strong {
+        font-family: var(--serif);
+        font-size: 1.5rem;
+        font-weight: 400;
+      }
+      .story-overlay span {
+        display: block;
+        margin-top: 0.35rem;
+        font-size: 0.65rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: #d8c7b8;
+      }
+
+      /* rooms */
+      .rooms {
+        padding: 9rem 0;
+        background: #efe8dd;
+      }
+      .rooms-top {
+        display: grid;
+        grid-template-columns: 1fr 0.5fr;
+        align-items: end;
+        gap: 4rem;
+        margin-bottom: 3rem;
+      }
+      .rooms-top .copy {
+        margin: 0;
+      }
+      .room-nav {
+        display: flex;
+        gap: 1.6rem;
+        overflow: auto;
+        scrollbar-width: none;
+        border-bottom: 1px solid rgba(23, 51, 42, 0.16);
+        margin-bottom: 2.4rem;
+      }
+      .room-nav::-webkit-scrollbar {
+        display: none;
+      }
+      .room-tab {
+        flex: none;
+        border: 0;
+        background: transparent;
+        color: #7a7f7b;
+        padding: 0 0 1rem;
+        border-bottom: 2px solid transparent;
+        font-size: 0.82rem;
+        font-weight: 500;
+        white-space: nowrap;
+      }
+      .room-tab span {
+        font-size: 0.61rem;
+        color: var(--clay);
+        margin-right: 0.35rem;
+      }
+      .room-tab.active {
+        color: var(--forest);
+        border-bottom-color: var(--clay);
+      }
+      .room-shell {
+        display: grid;
+        grid-template-columns: 1.28fr 0.72fr;
+        min-height: 650px;
+        background: var(--paper);
+      }
+      .room-media {
+        position: relative;
+        overflow: hidden;
+      }
+      .room-media img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        min-height: 650px;
+        transition: 0.4s var(--ease);
+      }
+      .room-controls {
+        position: absolute;
+        left: 1.2rem;
+        bottom: 1.2rem;
+        display: flex;
+        align-items: center;
+        background: rgba(11, 24, 20, 0.78);
+        color: white;
+        backdrop-filter: blur(8px);
+      }
+      .room-controls button {
+        width: 48px;
+        height: 48px;
+        border: 0;
+        background: transparent;
+        color: white;
+      }
+      .room-controls span {
+        font-size: 0.64rem;
+        letter-spacing: 0.12em;
+        padding: 0 0.9rem;
+      }
+      .room-detail {
+        padding: clamp(2rem, 5vw, 5rem);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+      .room-detail h3 {
+        margin: 0;
+        font-family: var(--serif);
+        color: var(--forest);
+        font-size: clamp(3rem, 4vw, 5rem);
+        font-weight: 400;
+        line-height: 0.95;
+      }
+      .room-desc {
+        margin: 1.5rem 0 1.8rem;
+      }
+      .facts {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.2rem 2rem;
+        border-top: 1px solid var(--line);
+        border-bottom: 1px solid var(--line);
+        padding: 1.3rem 0;
+      }
+      .fact small {
+        display: block;
+        font-size: 0.58rem;
+        letter-spacing: 0.13em;
+        text-transform: uppercase;
+        color: #8b8e8b;
+        margin-bottom: 0.3rem;
+      }
+      .fact strong {
+        font-size: 0.85rem;
+        font-weight: 500;
+        color: var(--forest);
+      }
+      .tags {
+        display: flex;
+        gap: 0.55rem;
+        flex-wrap: wrap;
+        margin: 1.5rem 0;
+      }
+      .tag {
+        padding: 0.5rem 0.7rem;
+        border: 1px solid rgba(23, 51, 42, 0.17);
+        font-size: 0.66rem;
+        color: #626862;
+      }
+      .room-actions {
+        display: flex;
+        gap: 0.7rem;
+        flex-wrap: wrap;
+        margin-top: 1rem;
+      }
+
+      /* experiences */
+      .experience {
+        position: relative;
+        min-height: 88vh;
+        display: flex;
+        align-items: center;
+        color: white;
+        overflow: hidden;
+      }
+      .experience img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .experience:after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          90deg,
+          rgba(9, 23, 18, 0.8),
+          rgba(9, 23, 18, 0.2) 62%,
+          rgba(9, 23, 18, 0.05)
+        );
+      }
+      .experience-inner {
+        position: relative;
+        z-index: 2;
+        width: 100%;
+        padding: 8rem 0;
+      }
+      .experience-content {
+        max-width: 650px;
+      }
+      .experience .headline {
+        color: white;
+      }
+      .experience .copy {
+        color: rgba(255, 255, 255, 0.76);
+        max-width: 540px;
+        margin: 1.5rem 0;
+      }
+      .activity-line {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.7rem 1.7rem;
+        margin: 1.7rem 0 2rem;
+        font-size: 0.69rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: #e5d6c9;
+      }
+
+      /* gastronomy */
+      .food {
+        padding: 9rem 0;
+        background: #f1e6d8;
+      }
+      .food-grid {
+        display: grid;
+        grid-template-columns: 0.64fr 1.1fr;
+        gap: clamp(3rem, 8vw, 8rem);
+        align-items: center;
+      }
+      .food-copy .headline {
+        font-size: clamp(3.7rem, 6vw, 6.6rem);
+      }
+      .food-copy .copy {
+        margin: 1.7rem 0;
+        max-width: 460px;
+      }
+      .food-collage {
+        display: grid;
+        grid-template-columns: 1.2fr 0.8fr;
+        grid-template-rows: 420px 240px;
+        gap: 1rem;
+      }
+      .food-collage img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .food-collage img:first-child {
+        grid-row: 1/3;
+      }
+      .food-collage img:nth-child(3) {
+        transform: translateX(-3rem);
+        width: calc(100% + 3rem);
+      }
+
+      /* wellness */
+      .wellness {
+        padding: 10rem 0;
+        background: #dfe5dd;
+      }
+      .wellness-grid {
+        display: grid;
+        grid-template-columns: 1fr 0.78fr;
+        gap: clamp(4rem, 8vw, 9rem);
+        align-items: center;
+      }
+      .wellness-media {
+        position: relative;
+        padding-bottom: 4rem;
+        padding-left: 4rem;
+      }
+      .wellness-media .main {
+        width: 100%;
+        height: 680px;
+        object-fit: cover;
+      }
+      .wellness-media .small {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 43%;
+        height: 260px;
+        object-fit: cover;
+        border: 10px solid #dfe5dd;
+      }
+      .wellness-list {
+        margin: 2rem 0 2.2rem;
+        border-top: 1px solid rgba(23, 51, 42, 0.2);
+      }
+      .well-row {
+        display: grid;
+        grid-template-columns: 48px 1fr;
+        gap: 1rem;
+        padding: 1rem 0;
+        border-bottom: 1px solid rgba(23, 51, 42, 0.2);
+      }
+      .well-row span:first-child {
+        font-family: var(--serif);
+        font-size: 1.55rem;
+        color: var(--clay);
+      }
+      .well-row span:last-child {
+        font-size: 0.9rem;
+        line-height: 1.55;
+        color: #4f5b54;
+      }
+
+      /* events */
+      .events {
+        padding: 8.5rem 0;
+        background: var(--forest-2);
+        color: white;
+      }
+      .events .headline {
+        color: white;
+      }
+      .events-top {
+        display: grid;
+        grid-template-columns: 1fr 0.48fr;
+        gap: 4rem;
+        align-items: end;
+        margin-bottom: 3rem;
+      }
+      .events .copy {
+        color: rgba(255, 255, 255, 0.66);
+        margin: 0;
+      }
+      .events-layout {
+        display: grid;
+        grid-template-columns: 1.25fr 0.75fr;
+        gap: 1rem;
+      }
+      .events-layout .main {
+        height: 570px;
+        width: 100%;
+        object-fit: cover;
+      }
+      .events-side {
+        display: grid;
+        grid-template-rows: 1fr 1fr;
+        gap: 1rem;
+      }
+      .events-side img {
+        width: 100%;
+        height: 277px;
+        object-fit: cover;
+      }
+      .event-meta {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 2rem;
+        margin-top: 2rem;
+      }
+      .event-stats {
+        display: flex;
+        gap: 2.7rem;
+        flex-wrap: wrap;
+      }
+      .event-stat small {
+        display: block;
+        font-size: 0.58rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: #c8bbae;
+        margin-bottom: 0.35rem;
+      }
+      .event-stat strong {
+        font-family: var(--serif);
+        font-size: 1.3rem;
+        font-weight: 400;
+      }
+
+      /* contact */
+      .contact {
+        padding: 9rem 0;
+        background: var(--paper);
+      }
+      .contact-grid {
+        display: grid;
+        grid-template-columns: 0.7fr 1fr;
+        gap: clamp(4rem, 10vw, 10rem);
+      }
+      .contact-lines {
+        margin-top: 2.2rem;
+        border-top: 1px solid var(--line);
+      }
+      .contact-line {
+        display: flex;
+        justify-content: space-between;
+        gap: 1rem;
+        padding: 1rem 0;
+        border-bottom: 1px solid var(--line);
+        font-size: 0.85rem;
+      }
+      .contact-line span:first-child {
+        color: var(--muted);
+      }
+      .contact-form {
+        background: #f0eadf;
+        padding: 2.4rem;
+      }
+      .form-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+      }
+      .field {
+        margin-bottom: 1rem;
+      }
+      .field.full {
+        grid-column: 1/-1;
+      }
+      .field label {
+        display: block;
+        font-size: 0.62rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--moss);
+        margin-bottom: 0.5rem;
+      }
+      .field input,
+      .field select,
+      .field textarea {
+        width: 100%;
+        border: 0;
+        border-bottom: 1px solid #bfb6aa;
+        background: transparent;
+        padding: 0.75rem 0;
+        outline: 0;
+        color: var(--ink);
+        border-radius: 0;
+      }
+      .field input:focus,
+      .field select:focus,
+      .field textarea:focus {
+        border-bottom-color: var(--forest);
+      }
+      .map {
+        margin-top: 4rem;
+        min-height: 360px;
+        background:
+          linear-gradient(rgba(10, 25, 20, 0.08), rgba(10, 25, 20, 0.08)),
+          url("https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1800&q=85")
+            center/cover;
+        display: flex;
+        align-items: flex-end;
+        justify-content: flex-end;
+        padding: 1rem;
+      }
+
+      /* final */
+      .final {
+        min-height: 78vh;
+        position: relative;
+        display: grid;
+        place-items: center;
+        color: white;
+        text-align: center;
+        overflow: hidden;
+      }
+      .final img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .final:after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          rgba(8, 18, 14, 0.22),
+          rgba(8, 18, 14, 0.7)
+        );
+      }
+      .final-inner {
+        position: relative;
+        z-index: 2;
+        padding: 5rem 1.5rem;
+      }
+      .final h2 {
+        font-family: var(--serif);
+        font-size: clamp(4rem, 8vw, 8.5rem);
+        line-height: 0.9;
+        letter-spacing: -0.05em;
+        font-weight: 400;
+        margin: 0 auto 1.3rem;
+        max-width: 1050px;
+      }
+      .final p {
+        max-width: 520px;
+        margin: 0 auto 2rem;
+        color: rgba(255, 255, 255, 0.78);
+        line-height: 1.7;
+      }
+
+      footer {
+        background: #0e211a;
+        color: white;
+        padding: 4rem 0 2rem;
+      }
+      .footer-grid {
+        display: grid;
+        grid-template-columns: 1.3fr 0.7fr 0.7fr 0.7fr;
+        gap: 3rem;
+        padding-bottom: 3rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.11);
+      }
+      footer h4 {
+        font-size: 0.61rem;
+        letter-spacing: 0.13em;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.46);
+        margin: 0 0 1rem;
+      }
+      footer ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+      footer li {
+        margin: 0.55rem 0;
+        font-size: 0.82rem;
+        color: rgba(255, 255, 255, 0.72);
+      }
+      .foot-note {
+        padding-top: 1.4rem;
+        display: flex;
+        justify-content: space-between;
+        gap: 1rem;
+        color: rgba(255, 255, 255, 0.37);
+        font-size: 0.68rem;
+      }
+
+      /* drawer */
+      .backdrop {
+        position: fixed;
+        inset: 0;
+        z-index: 80;
+        background: rgba(7, 15, 12, 0.64);
+        backdrop-filter: blur(3px);
+        opacity: 0;
+        pointer-events: none;
+        transition: 0.3s;
+      }
+      .backdrop.open {
+        opacity: 1;
+        pointer-events: auto;
+      }
+      .drawer {
+        position: fixed;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        z-index: 90;
+        width: min(520px, 100%);
+        background: var(--paper);
+        transform: translateX(100%);
+        transition: 0.4s var(--ease);
+        overflow: auto;
+      }
+      .drawer.open {
+        transform: none;
+      }
+      .drawer-head {
+        padding: 2rem;
+        border-bottom: 1px solid var(--line);
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+      }
+      .drawer-head h3 {
+        font-family: var(--serif);
+        color: var(--forest);
+        font-size: 2.4rem;
+        font-weight: 400;
+        line-height: 1;
+        margin: 0.5rem 0 0;
+      }
+      .drawer-close {
+        border: 0;
+        background: transparent;
+        color: var(--forest);
+        font-size: 1.6rem;
+      }
+      .drawer-body {
+        padding: 2rem;
+      }
+      .room-summary {
+        background: #eee6da;
+        display: grid;
+        grid-template-columns: 92px 1fr;
+        gap: 1rem;
+        align-items: center;
+        padding: 1rem;
+        margin-bottom: 1.7rem;
+      }
+      .room-summary img {
+        width: 92px;
+        height: 72px;
+        object-fit: cover;
+      }
+      .room-summary small {
+        font-size: 0.58rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: #7f827e;
+      }
+      .room-summary strong {
+        display: block;
+        color: var(--forest);
+        margin-top: 0.25rem;
+      }
+
+      /* lightbox */
+      .lightbox {
+        position: fixed;
+        inset: 0;
+        z-index: 100;
+        background: rgba(6, 11, 9, 0.96);
+        display: none;
+        place-items: center;
+        padding: 5vw;
+      }
+      .lightbox.open {
+        display: grid;
+      }
+      .lightbox img {
+        max-width: 92vw;
+        max-height: 86vh;
+      }
+      .lightbox-close {
+        position: absolute;
+        top: 1.4rem;
+        right: 1.4rem;
+        color: white;
+        background: transparent;
+        border: 0;
+        font-size: 2rem;
+      }
+
+      /* mobile menu */
+      .mobile-menu {
+        position: fixed;
+        inset: 0;
+        z-index: 70;
+        background: var(--forest);
+        color: white;
+        transform: translateX(100%);
+        transition: 0.4s var(--ease);
+        padding: 1.2rem;
+        display: flex;
+        flex-direction: column;
+      }
+      .mobile-menu.open {
+        transform: none;
+      }
+      .mobile-menu-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .mobile-menu nav {
+        display: grid;
+        margin: auto 0;
+      }
+      .mobile-menu nav a {
+        font-family: var(--serif);
+        font-size: 2.3rem;
+        padding: 0.75rem 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+      }
+      .mobile-close {
+        border: 0;
+        background: transparent;
+        color: white;
+        font-size: 1.8rem;
+      }
+
+      .reveal {
+        opacity: 0;
+        transform: translateY(25px);
+        transition:
+          opacity 0.8s var(--ease),
+          transform 0.8s var(--ease);
+      }
+      .reveal.visible {
+        opacity: 1;
+        transform: none;
+      }
+      .mobile-sticky {
+        display: none;
+      }
+
+      @media (max-width: 1120px) {
+        .nav {
+          gap: 0.85rem;
+        }
+        .nav a {
+          font-size: 0.7rem;
+        }
+        .header .reserve {
+          display: none;
+        }
+        .hero-grid {
+          grid-template-columns: 1fr 0.35fr;
+        }
+      }
+
+      @media (max-width: 920px) {
+        .container {
+          width: min(100% - 32px, 1400px);
+        }
+        .nav {
+          display: none;
+        }
+        .burger {
+          display: block;
+        }
+        .hero-grid {
+          grid-template-columns: 1fr;
+        }
+        .hero-aside {
+          display: none;
+        }
+        .booking-inner {
+          grid-template-columns: 1fr 1fr;
+        }
+        .book-field:first-child {
+          grid-column: 1/-1;
+        }
+        .booking-inner .btn {
+          grid-column: 1/-1;
+          height: 58px;
+        }
+        .manifesto-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+        .manifesto-left {
+          position: static;
+          grid-column: 1/-1;
+          max-width: 650px;
+        }
+        .manifesto-main img {
+          height: 560px;
+        }
+        .manifesto-side {
+          padding-top: 4rem;
+        }
+        .rooms-top,
+        .events-top {
+          grid-template-columns: 1fr;
+          gap: 1.5rem;
+        }
+        .room-shell {
+          grid-template-columns: 1fr;
+        }
+        .room-media img {
+          min-height: 500px;
+          height: 500px;
+        }
+        .food-grid,
+        .wellness-grid,
+        .contact-grid {
+          grid-template-columns: 1fr;
+        }
+        .food-copy {
+          order: 2;
+        }
+        .food-collage {
+          order: 1;
+        }
+        .wellness-media {
+          padding-left: 2rem;
+        }
+        .events-layout {
+          grid-template-columns: 1fr;
+        }
+        .events-layout .main {
+          height: 470px;
+        }
+        .events-side {
+          grid-template-columns: 1fr 1fr;
+          grid-template-rows: 1fr;
+        }
+        .events-side img {
+          height: 230px;
+        }
+        .footer-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+
+      @media (max-width: 640px) {
+        .container {
+          width: min(100% - 24px, 1400px);
+        }
+        .header-inner {
+          min-height: 68px;
+        }
+        .brand-sub {
+          display: none;
+        }
+        .hero-grid {
+          padding-top: 100px;
+          padding-bottom: 5rem;
+        }
+        .hero h1 {
+          font-size: clamp(4.4rem, 20vw, 6.6rem);
+        }
+        .hero-text {
+          font-size: 0.92rem;
+        }
+        .hero-actions {
+          display: grid;
+        }
+        .hero-actions .btn {
+          width: 100%;
+        }
+        .hero-bottom-label {
+          display: none;
+        }
+        .booking-float {
+          display: none;
+        }
+        .manifesto,
+        .rooms,
+        .food,
+        .wellness,
+        .events,
+        .contact {
+          padding: 6rem 0;
+        }
+        .manifesto-grid {
+          grid-template-columns: 1fr;
+        }
+        .manifesto-left {
+          grid-column: auto;
+        }
+        .manifesto-main img {
+          height: 430px;
+        }
+        .manifesto-main .big-quote {
+          font-size: 2.7rem;
+        }
+        .manifesto-side {
+          padding-top: 0;
+        }
+        .manifesto-side img {
+          height: 250px;
+        }
+        .photo-story {
+          padding: 5.5rem 0;
+        }
+        .story-head {
+          display: block;
+        }
+        .story-head .copy {
+          margin-top: 1rem;
+        }
+        .story-actions {
+          justify-content: flex-start;
+          margin-top: 1.3rem;
+        }
+        .story-arrow {
+          width: 48px;
+          height: 48px;
+        }
+        .story-card {
+          flex-basis: 86vw;
+          height: 480px;
+        }
+        .story-card.small {
+          flex-basis: 72vw;
+        }
+        .room-shell {
+          min-height: auto;
+        }
+        .room-media img {
+          height: 360px;
+          min-height: 360px;
+        }
+        .room-detail {
+          padding: 1.7rem;
+        }
+        .room-detail h3 {
+          font-size: 3rem;
+        }
+        .room-actions {
+          display: grid;
+        }
+        .room-actions .btn {
+          width: 100%;
+        }
+        .experience {
+          min-height: 760px;
+        }
+        .food-collage {
+          grid-template-columns: 1fr 1fr;
+          grid-template-rows: 290px 170px;
+        }
+        .food-collage img:first-child {
+          grid-column: 1/-1;
+          grid-row: auto;
+        }
+        .food-collage img:nth-child(3) {
+          transform: none;
+          width: 100%;
+        }
+        .wellness-media {
+          padding-left: 1rem;
+          padding-bottom: 2.7rem;
+        }
+        .wellness-media .main {
+          height: 430px;
+        }
+        .wellness-media .small {
+          height: 170px;
+          width: 50%;
+          border-width: 7px;
+        }
+        .events-layout .main {
+          height: 340px;
+        }
+        .events-side img {
+          height: 160px;
+        }
+        .event-meta {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+        .form-grid {
+          grid-template-columns: 1fr;
+        }
+        .contact-form {
+          padding: 1.4rem;
+        }
+        .map {
+          min-height: 260px;
+        }
+        .final {
+          min-height: 650px;
+        }
+        .footer-grid {
+          grid-template-columns: 1fr;
+        }
+        .foot-note {
+          flex-direction: column;
+        }
+        .mobile-sticky {
+          display: grid;
+          grid-template-columns: 1fr 60px;
+          position: fixed;
+          z-index: 45;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: var(--forest);
+          box-shadow: 0 -8px 25px rgba(0, 0, 0, 0.14);
+        }
+        .mobile-sticky button,
+        .mobile-sticky a {
+          min-height: 56px;
+          border: 0;
+          background: transparent;
+          color: white;
+          display: grid;
+          place-items: center;
+          font-size: 0.77rem;
+          font-weight: 600;
+        }
+        .mobile-sticky a {
+          border-left: 1px solid rgba(255, 255, 255, 0.14);
+          font-size: 1.2rem;
+        }
+        footer {
+          padding-bottom: 5.5rem;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <header class="header" id="header">
+      <div class="container header-inner">
+        <a class="brand" href="#galeria">
+          <span class="brand-symbol"></span>
+          <span>
+            <span class="brand-name">SIERRA NATIVA</span>
+            <span class="brand-sub">Hotel Boutique · Tandil</span>
+          </span>
+        </a>
+
+        <nav class="nav" aria-label="Navegación principal">
+          <a class="active" data-sec="galeria" href="#galeria">Galería</a>
+          <a data-sec="lugar" href="#lugar">El Lugar</a>
+          <a data-sec="habitaciones" href="#habitaciones">Habitaciones</a>
+          <a data-sec="deportes" href="#deportes">Deportes</a>
+          <a data-sec="sabores" href="#sabores">Sabores</a>
+          <a data-sec="relax" href="#relax">Relax</a>
+          <a data-sec="eventos" href="#eventos">Eventos</a>
+          <a data-sec="contacto" href="#contacto">Contacto</a>
+        </nav>
+
+        <div class="header-actions">
+          <button class="btn reserve" onclick="openBooking()">
+            Consultar disponibilidad
+          </button>
+          <button class="burger" onclick="toggleMenu()" aria-label="Abrir menú">
+            ☰
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <div class="mobile-menu" id="mobileMenu">
+      <div class="mobile-menu-top">
         <span class="brand-name">SIERRA NATIVA</span>
-        <span class="brand-sub">Hotel Boutique · Tandil</span>
-      </span>
-    </a>
-
-    <nav class="nav" aria-label="Navegación principal">
-      <a class="active" data-sec="galeria" href="#galeria">Galería</a>
-      <a data-sec="lugar" href="#lugar">El Lugar</a>
-      <a data-sec="habitaciones" href="#habitaciones">Habitaciones</a>
-      <a data-sec="deportes" href="#deportes">Deportes</a>
-      <a data-sec="sabores" href="#sabores">Sabores</a>
-      <a data-sec="relax" href="#relax">Relax</a>
-      <a data-sec="eventos" href="#eventos">Eventos</a>
-      <a data-sec="contacto" href="#contacto">Contacto</a>
-    </nav>
-
-    <div class="header-actions">
-      <button class="btn reserve" onclick="openBooking()">Consultar disponibilidad</button>
-      <button class="burger" onclick="toggleMenu()" aria-label="Abrir menú">☰</button>
+        <button class="mobile-close" onclick="toggleMenu()">×</button>
+      </div>
+      <nav>
+        <a onclick="toggleMenu()" href="#galeria">Galería</a>
+        <a onclick="toggleMenu()" href="#lugar">El Lugar</a>
+        <a onclick="toggleMenu()" href="#habitaciones">Habitaciones</a>
+        <a onclick="toggleMenu()" href="#deportes">Deportes</a>
+        <a onclick="toggleMenu()" href="#sabores">Sabores</a>
+        <a onclick="toggleMenu()" href="#relax">Relax</a>
+        <a onclick="toggleMenu()" href="#eventos">Eventos</a>
+        <a onclick="toggleMenu()" href="#contacto">Contacto</a>
+      </nav>
+      <button
+        class="btn btn-light"
+        onclick="
+          toggleMenu();
+          openBooking();
+        "
+      >
+        Consultar disponibilidad
+      </button>
     </div>
-  </div>
-</header>
 
-<div class="mobile-menu" id="mobileMenu">
-  <div class="mobile-menu-top">
-    <span class="brand-name">SIERRA NATIVA</span>
-    <button class="mobile-close" onclick="toggleMenu()">×</button>
-  </div>
-  <nav>
-    <a onclick="toggleMenu()" href="#galeria">Galería</a>
-    <a onclick="toggleMenu()" href="#lugar">El Lugar</a>
-    <a onclick="toggleMenu()" href="#habitaciones">Habitaciones</a>
-    <a onclick="toggleMenu()" href="#deportes">Deportes</a>
-    <a onclick="toggleMenu()" href="#sabores">Sabores</a>
-    <a onclick="toggleMenu()" href="#relax">Relax</a>
-    <a onclick="toggleMenu()" href="#eventos">Eventos</a>
-    <a onclick="toggleMenu()" href="#contacto">Contacto</a>
-  </nav>
-  <button class="btn btn-light" onclick="toggleMenu();openBooking()">Consultar disponibilidad</button>
-</div>
+    <main>
+      <section class="hero" id="galeria">
+        <img
+          class="hero-bg"
+          src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=2200&q=90"
+          alt="Naturaleza y paisaje serrano"
+        />
+        <div class="container hero-grid">
+          <div class="hero-copy">
+            <div class="hero-kicker">Hotel Boutique · Tandil</div>
+            <h1>Donde el tiempo <span>se vuelve paisaje.</span></h1>
+            <p class="hero-text">
+              Una experiencia entre sierras, naturaleza y calma. Habitaciones,
+              gastronomía, bienestar y actividades pensadas para desconectarse
+              del ruido y volver a disfrutar lo simple.
+            </p>
+            <div class="hero-actions">
+              <button class="btn btn-light" onclick="openBooking()">
+                Consultar disponibilidad <span>→</span>
+              </button>
+              <a class="btn btn-ghost-light" href="#lugar"
+                >Descubrir el lugar</a
+              >
+            </div>
+          </div>
 
-<main>
+          <aside class="hero-aside">
+            <strong>★★★★</strong>
+            <p>
+              Demo conceptual con marca y contenido ficticio para mostrar una
+              posible renovación visual y de experiencia.
+            </p>
+          </aside>
+        </div>
+        <div class="hero-bottom-label">Tandil · Buenos Aires · Argentina</div>
+      </section>
 
-  <section class="hero" id="galeria">
-    <img class="hero-bg" src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=2200&q=90" alt="Naturaleza y paisaje serrano">
-    <div class="container hero-grid">
-      <div class="hero-copy">
-        <div class="hero-kicker">Hotel Boutique · Tandil</div>
-        <h1>Donde el tiempo <span>se vuelve paisaje.</span></h1>
-        <p class="hero-text">Una experiencia entre sierras, naturaleza y calma. Habitaciones, gastronomía, bienestar y actividades pensadas para desconectarse del ruido y volver a disfrutar lo simple.</p>
-        <div class="hero-actions">
-          <button class="btn btn-light" onclick="openBooking()">Consultar disponibilidad <span>→</span></button>
-          <a class="btn btn-ghost-light" href="#lugar">Descubrir el lugar</a>
+      <section class="booking-float">
+        <div class="container booking-inner">
+          <div class="book-field">
+            <label>Experiencia</label
+            ><select>
+              <option>Escapada Sierra Nativa</option>
+              <option>Fin de semana en pareja</option>
+              <option>Estadía familiar</option>
+            </select>
+          </div>
+          <div class="book-field">
+            <label>Llegada</label><input type="date" />
+          </div>
+          <div class="book-field">
+            <label>Salida</label><input type="date" />
+          </div>
+          <div class="book-field">
+            <label>Huéspedes</label
+            ><select>
+              <option>2 huéspedes</option>
+              <option>1 huésped</option>
+              <option>3 huéspedes</option>
+              <option>4 huéspedes</option>
+            </select>
+          </div>
+          <button class="btn btn-light" onclick="openBooking()">
+            Consultar
+          </button>
+        </div>
+      </section>
+
+      <section class="manifesto" id="lugar">
+        <div class="container manifesto-grid">
+          <div class="manifesto-left reveal">
+            <div class="eyebrow">El lugar</div>
+            <h2 class="headline">La pausa que venías buscando.</h2>
+            <p class="copy">
+              La nueva experiencia digital no arranca enumerando servicios:
+              primero vende el deseo de estar acá. El paisaje, la calma y la
+              hospitalidad pasan a ser protagonistas.
+            </p>
+            <a class="btn btn-ghost-dark" href="#habitaciones"
+              >Explorar habitaciones</a
+            >
+          </div>
+
+          <div class="manifesto-main reveal">
+            <img
+              src="https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=1100&q=88"
+              alt="Naturaleza y sierras"
+            />
+            <p class="big-quote">
+              “Despertarse sin apuro, mirar hacia afuera y entender por qué
+              valió la pena venir.”
+            </p>
+          </div>
+
+          <div class="manifesto-side reveal">
+            <img
+              src="https://images.unsplash.com/photo-1510798831971-661eb04b3739?auto=format&fit=crop&w=800&q=86"
+              alt="Alojamiento cálido"
+            />
+            <p class="tiny">
+              Espacios cálidos, mucha luz natural y una estética conectada con
+              el entorno.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="photo-story">
+        <div class="container story-head reveal">
+          <div>
+            <div class="eyebrow" style="color: #c79579">Galería</div>
+            <h2 class="headline">No una galería.<br />Una invitación.</h2>
+          </div>
+          <div>
+            <p class="copy">
+              En lugar del clásico carrusel con flechas diminutas, la fotografía
+              se convierte en una experiencia horizontal, inmersiva y táctil.
+            </p>
+            <div class="story-actions" aria-label="Controles de galería">
+              <button
+                class="story-arrow"
+                type="button"
+                onclick="moveStory(-1)"
+                aria-label="Imagen anterior"
+              >
+                ←
+              </button>
+              <span class="story-counter" id="storyCounter">01 / 05</span>
+              <button
+                class="story-arrow"
+                type="button"
+                onclick="moveStory(1)"
+                aria-label="Imagen siguiente"
+              >
+                →
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="story-track" id="storyTrack">
+          <article
+            class="story-card"
+            onclick="openLightbox(this.querySelector('img').src)"
+          >
+            <img
+              src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=1500&q=88"
+              alt="Hotel"
+            />
+            <div class="story-overlay">
+              <strong>El lugar</strong><span>Arquitectura · Naturaleza</span>
+            </div>
+          </article>
+          <article
+            class="story-card small"
+            onclick="openLightbox(this.querySelector('img').src)"
+          >
+            <img
+              src="https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1100&q=88"
+              alt="Exterior"
+            />
+            <div class="story-overlay">
+              <strong>Despertar</strong><span>Mañanas lentas</span>
+            </div>
+          </article>
+          <article
+            class="story-card"
+            onclick="openLightbox(this.querySelector('img').src)"
+          >
+            <img
+              src="https://images.unsplash.com/photo-1564501049412-61c2a3083791?auto=format&fit=crop&w=1500&q=88"
+              alt="Habitación"
+            />
+            <div class="story-overlay">
+              <strong>Descanso</strong><span>Habitaciones · Suites</span>
+            </div>
+          </article>
+          <article
+            class="story-card small"
+            onclick="openLightbox(this.querySelector('img').src)"
+          >
+            <img
+              src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=1100&q=88"
+              alt="Relax"
+            />
+            <div class="story-overlay">
+              <strong>Bienestar</strong><span>Spa · Relax</span>
+            </div>
+          </article>
+          <article
+            class="story-card"
+            onclick="openLightbox(this.querySelector('img').src)"
+          >
+            <img
+              src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=1500&q=88"
+              alt="Gastronomía"
+            />
+            <div class="story-overlay">
+              <strong>Sabores</strong><span>Producto local · Cocina</span>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="rooms" id="habitaciones">
+        <div class="container">
+          <div class="rooms-top reveal">
+            <div>
+              <div class="eyebrow">Habitaciones</div>
+              <h2 class="headline">
+                Dormir también puede ser parte del viaje.
+              </h2>
+            </div>
+            <p class="copy">
+              La información técnica queda ordenada y secundaria. Primero: foto,
+              categoría, capacidad y motivos para elegirla.
+            </p>
+          </div>
+
+          <div class="room-nav reveal" id="roomTabs"></div>
+
+          <div class="room-shell reveal">
+            <div class="room-media">
+              <img id="roomImage" alt="Habitación" />
+              <div class="room-controls">
+                <button onclick="changeRoomPhoto(-1)">←</button>
+                <span id="roomCounter">01 / 03</span>
+                <button onclick="changeRoomPhoto(1)">→</button>
+              </div>
+            </div>
+
+            <div class="room-detail">
+              <h3 id="roomName"></h3>
+              <p class="copy room-desc" id="roomDesc"></p>
+
+              <div class="facts">
+                <div class="fact">
+                  <small>Huéspedes</small><strong id="roomGuests"></strong>
+                </div>
+                <div class="fact">
+                  <small>Superficie</small><strong id="roomSize"></strong>
+                </div>
+                <div class="fact">
+                  <small>Cama</small><strong id="roomBed"></strong>
+                </div>
+                <div class="fact">
+                  <small>Vista</small><strong id="roomView"></strong>
+                </div>
+              </div>
+
+              <div class="tags" id="roomTags"></div>
+
+              <div class="room-actions">
+                <button class="btn btn-dark" onclick="openBooking()">
+                  Consultar disponibilidad
+                </button>
+                <button
+                  class="btn btn-ghost-dark"
+                  onclick="
+                    openLightbox(document.getElementById('roomImage').src)
+                  "
+                >
+                  Ampliar foto
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="experience" id="deportes">
+        <img
+          src="https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=2000&q=90"
+          alt="Experiencias al aire libre"
+        />
+        <div class="container experience-inner">
+          <div class="experience-content reveal">
+            <div class="eyebrow" style="color: #d3b39f">Experiencias</div>
+            <h2 class="headline">Afuera también pasa todo.</h2>
+            <p class="copy">
+              Deportes, aire libre y paisaje dejan de aparecer como pequeños
+              íconos perdidos. La sección transmite movimiento, amplitud y la
+              posibilidad de vivir el lugar más allá de la habitación.
+            </p>
+            <div class="activity-line">
+              <span>Tenis</span><span>Golf</span><span>Fútbol</span
+              ><span>Gimnasio</span><span>Actividades familiares</span>
+            </div>
+            <a class="btn btn-ghost-light" href="#contacto"
+              >Consultar actividades</a
+            >
+          </div>
+        </div>
+      </section>
+
+      <section class="food" id="sabores">
+        <div class="container food-grid">
+          <div class="food-copy reveal">
+            <div class="eyebrow">Sabores</div>
+            <h2 class="headline">Comer bien también es bajar el ritmo.</h2>
+            <p class="copy">
+              Una estética más cálida para diferenciar gastronomía del resto de
+              la landing: producto regional, vinos, desayunos y momentos
+              alrededor de la mesa.
+            </p>
+            <div style="display: flex; gap: 0.7rem; flex-wrap: wrap">
+              <button
+                class="btn btn-dark"
+                onclick="openGeneric('Reservá tu mesa', 'Gastronomía')"
+              >
+                Reservar una mesa
+              </button>
+              <a class="btn btn-ghost-dark" href="#contacto"
+                >Consultar propuesta</a
+              >
+            </div>
+          </div>
+
+          <div class="food-collage reveal">
+            <img
+              src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=1100&q=88"
+              alt="Gastronomía"
+            />
+            <img
+              src="https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=700&q=88"
+              alt="Vino"
+            />
+            <img
+              src="https://images.unsplash.com/photo-1533777857889-4be7c70b33f7?auto=format&fit=crop&w=700&q=88"
+              alt="Mesa"
+            />
+          </div>
+        </div>
+      </section>
+
+      <section class="wellness" id="relax">
+        <div class="container wellness-grid">
+          <div class="wellness-media reveal">
+            <img
+              class="main"
+              src="https://images.unsplash.com/photo-1544161515-4ab6ce6db874?auto=format&fit=crop&w=1100&q=88"
+              alt="Masajes"
+            />
+            <img
+              class="small"
+              src="https://images.unsplash.com/photo-1600334089648-b0d9d3028eb2?auto=format&fit=crop&w=700&q=88"
+              alt="Spa"
+            />
+          </div>
+
+          <div class="reveal">
+            <div class="eyebrow">Relax</div>
+            <h2 class="headline">Menos ruido.<br />Más aire.</h2>
+            <p class="copy">
+              El ritmo visual también cambia: más espacio, tonos suaves y una
+              composición tranquila para que la sección de bienestar se sienta
+              diferente antes de leer una sola palabra.
+            </p>
+
+            <div class="wellness-list">
+              <div class="well-row">
+                <span>01</span
+                ><span>Piscina climatizada y espacios de descanso.</span>
+              </div>
+              <div class="well-row">
+                <span>02</span><span>Masajes y tratamientos de bienestar.</span>
+              </div>
+              <div class="well-row">
+                <span>03</span><span>Hidroterapia y momentos de pausa.</span>
+              </div>
+              <div class="well-row">
+                <span>04</span
+                ><span>Yoga y experiencias frente al paisaje.</span>
+              </div>
+            </div>
+
+            <button
+              class="btn btn-ghost-dark"
+              onclick="openGeneric('Consultá tu turno', 'Bienestar')"
+            >
+              Consultar un turno
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section class="events" id="eventos">
+        <div class="container">
+          <div class="events-top reveal">
+            <div>
+              <div class="eyebrow" style="color: #ca9478">Eventos</div>
+              <h2 class="headline">
+                Hay momentos que necesitan más que un salón.
+              </h2>
+            </div>
+            <p class="copy">
+              Casamientos, celebraciones y encuentros corporativos se presentan
+              como una experiencia propia, con imágenes grandes y un CTA directo
+              a consultar fecha.
+            </p>
+          </div>
+
+          <div class="events-layout reveal">
+            <img
+              class="main"
+              src="https://images.unsplash.com/photo-1507504031003-b417219a0fde?auto=format&fit=crop&w=1400&q=88"
+              alt="Evento al aire libre"
+            />
+            <div class="events-side">
+              <img
+                src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&w=900&q=88"
+                alt="Salón"
+              />
+              <img
+                src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=900&q=88"
+                alt="Celebración"
+              />
+            </div>
+          </div>
+
+          <div class="event-meta reveal">
+            <div class="event-stats">
+              <div class="event-stat">
+                <small>Espacios</small><strong>3 propuestas</strong>
+              </div>
+              <div class="event-stat">
+                <small>Entorno</small><strong>Naturaleza</strong>
+              </div>
+              <div class="event-stat">
+                <small>Servicio</small><strong>Gastronomía</strong>
+              </div>
+              <div class="event-stat">
+                <small>Uso</small><strong>Social · Corporativo</strong>
+              </div>
+            </div>
+            <button
+              class="btn btn-ghost-light"
+              onclick="openGeneric('Consultá tu evento', 'Eventos')"
+            >
+              Consultar una fecha
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section class="contact" id="contacto">
+        <div class="container">
+          <div class="contact-grid">
+            <div class="reveal">
+              <div class="eyebrow">Contacto</div>
+              <h2 class="headline">La escapada empieza con un mensaje.</h2>
+              <p class="copy">
+                Una salida clara y simple hacia los canales que realmente
+                importan: disponibilidad, WhatsApp, contacto y ubicación.
+              </p>
+
+              <div class="contact-lines">
+                <div class="contact-line">
+                  <span>WhatsApp</span><strong>+54 249 400-0000</strong>
+                </div>
+                <div class="contact-line">
+                  <span>Email</span><strong>hola@sierranativa.com.ar</strong>
+                </div>
+                <div class="contact-line">
+                  <span>Instagram</span><strong>@sierranativa</strong>
+                </div>
+                <div class="contact-line">
+                  <span>Ubicación</span><strong>Tandil · Buenos Aires</strong>
+                </div>
+              </div>
+            </div>
+
+            <form
+              class="contact-form reveal"
+              onsubmit="
+                event.preventDefault();
+                alert('Demo: consulta enviada ✨');
+              "
+            >
+              <div class="form-grid">
+                <div class="field">
+                  <label>Nombre</label
+                  ><input required type="text" placeholder="Tu nombre" />
+                </div>
+                <div class="field">
+                  <label>Email / WhatsApp</label
+                  ><input
+                    required
+                    type="text"
+                    placeholder="¿Cómo te contactamos?"
+                  />
+                </div>
+                <div class="field full">
+                  <label>Motivo</label
+                  ><select>
+                    <option>Consultar disponibilidad</option>
+                    <option>Restaurante</option>
+                    <option>Relax / Spa</option>
+                    <option>Eventos</option>
+                  </select>
+                </div>
+                <div class="field full">
+                  <label>Mensaje</label
+                  ><textarea
+                    rows="4"
+                    placeholder="Contanos qué estás buscando"
+                  ></textarea>
+                </div>
+              </div>
+              <button class="btn btn-dark" type="submit">
+                Enviar consulta <span>→</span>
+              </button>
+            </form>
+          </div>
+
+          <div class="map reveal">
+            <a
+              class="btn btn-light"
+              href="https://www.google.com/maps/search/Tandil+Buenos+Aires"
+              target="_blank"
+              rel="noopener"
+              >Cómo llegar</a
+            >
+          </div>
+        </div>
+      </section>
+
+      <section class="final">
+        <img
+          src="https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=2200&q=90"
+          alt="Paisaje natural"
+        />
+        <div class="final-inner reveal">
+          <h2>Tu próxima pausa empieza acá.</h2>
+          <p>
+            Una demo inmersiva pensada para que el lugar se venda primero con
+            emoción y después con información.
+          </p>
+          <div
+            style="
+              display: flex;
+              gap: 0.8rem;
+              justify-content: center;
+              flex-wrap: wrap;
+            "
+          >
+            <button class="btn btn-light" onclick="openBooking()">
+              Consultar disponibilidad
+            </button>
+            <a
+              class="btn btn-ghost-light"
+              href="https://wa.me/542494000000"
+              target="_blank"
+              rel="noopener"
+              >Hablar por WhatsApp</a
+            >
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="container">
+        <div class="footer-grid">
+          <div>
+            <div class="brand-name" style="font-size: 1.35rem">
+              SIERRA NATIVA
+            </div>
+            <div class="brand-sub" style="margin-top: 0.55rem">
+              Hotel Boutique · Tandil
+            </div>
+          </div>
+          <div>
+            <h4>Navegación</h4>
+            <ul>
+              <li><a href="#lugar">El Lugar</a></li>
+              <li><a href="#habitaciones">Habitaciones</a></li>
+              <li><a href="#sabores">Sabores</a></li>
+              <li><a href="#eventos">Eventos</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4>Experiencias</h4>
+            <ul>
+              <li><a href="#deportes">Deportes</a></li>
+              <li><a href="#relax">Relax</a></li>
+              <li><a href="#galeria">Galería</a></li>
+              <li><a href="#contacto">Contacto</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4>Contacto</h4>
+            <ul>
+              <li>+54 249 400-0000</li>
+              <li>hola@sierranativa.com.ar</li>
+              <li>Tandil · Buenos Aires</li>
+              <li>@sierranativa</li>
+            </ul>
+          </div>
+        </div>
+        <div class="foot-note">
+          <span>Demo conceptual — Marca, textos y datos ficticios.</span
+          ><span>Tandil · Buenos Aires · Argentina</span>
         </div>
       </div>
+    </footer>
 
-      <aside class="hero-aside">
-        <strong>★★★★</strong>
-        <p>Demo conceptual con marca y contenido ficticio para mostrar una posible renovación visual y de experiencia.</p>
-      </aside>
-    </div>
-    <div class="hero-bottom-label">Tandil · Buenos Aires · Argentina</div>
-  </section>
-
-  <section class="booking-float">
-    <div class="container booking-inner">
-      <div class="book-field"><label>Experiencia</label><select><option>Escapada Sierra Nativa</option><option>Fin de semana en pareja</option><option>Estadía familiar</option></select></div>
-      <div class="book-field"><label>Llegada</label><input type="date"></div>
-      <div class="book-field"><label>Salida</label><input type="date"></div>
-      <div class="book-field"><label>Huéspedes</label><select><option>2 huéspedes</option><option>1 huésped</option><option>3 huéspedes</option><option>4 huéspedes</option></select></div>
-      <button class="btn btn-light" onclick="openBooking()">Consultar</button>
-    </div>
-  </section>
-
-  <section class="manifesto" id="lugar">
-    <div class="container manifesto-grid">
-      <div class="manifesto-left reveal">
-        <div class="eyebrow">El lugar</div>
-        <h2 class="headline">La pausa que venías buscando.</h2>
-        <p class="copy">La nueva experiencia digital no arranca enumerando servicios: primero vende el deseo de estar acá. El paisaje, la calma y la hospitalidad pasan a ser protagonistas.</p>
-        <a class="btn btn-ghost-dark" href="#habitaciones">Explorar habitaciones</a>
-      </div>
-
-      <div class="manifesto-main reveal">
-        <img src="https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=1100&q=88" alt="Naturaleza y sierras">
-        <p class="big-quote">“Despertarse sin apuro, mirar hacia afuera y entender por qué valió la pena venir.”</p>
-      </div>
-
-      <div class="manifesto-side reveal">
-        <img src="https://images.unsplash.com/photo-1510798831971-661eb04b3739?auto=format&fit=crop&w=800&q=86" alt="Alojamiento cálido">
-        <p class="tiny">Espacios cálidos, mucha luz natural y una estética conectada con el entorno.</p>
-      </div>
-    </div>
-  </section>
-
-  <section class="photo-story">
-    <div class="container story-head reveal">
-      <div>
-        <div class="eyebrow" style="color:#c79579">Galería</div>
-        <h2 class="headline">No una galería.<br>Una invitación.</h2>
-      </div>
-      <div>
-        <p class="copy">En lugar del clásico carrusel con flechas diminutas, la fotografía se convierte en una experiencia horizontal, inmersiva y táctil.</p>
-        <div class="story-actions" aria-label="Controles de galería">
-          <button class="story-arrow" type="button" onclick="moveStory(-1)" aria-label="Imagen anterior">←</button>
-          <span class="story-counter" id="storyCounter">01 / 05</span>
-          <button class="story-arrow" type="button" onclick="moveStory(1)" aria-label="Imagen siguiente">→</button>
-        </div>
-      </div>
+    <div class="mobile-sticky">
+      <button onclick="openBooking()">Consultar disponibilidad</button>
+      <a
+        href="https://wa.me/542494000000"
+        target="_blank"
+        rel="noopener"
+        aria-label="WhatsApp"
+        >◉</a
+      >
     </div>
 
-    <div class="story-track" id="storyTrack">
-      <article class="story-card" onclick="openLightbox(this.querySelector('img').src)">
-        <img src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=1500&q=88" alt="Hotel">
-        <div class="story-overlay"><strong>El lugar</strong><span>Arquitectura · Naturaleza</span></div>
-      </article>
-      <article class="story-card small" onclick="openLightbox(this.querySelector('img').src)">
-        <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1100&q=88" alt="Exterior">
-        <div class="story-overlay"><strong>Despertar</strong><span>Mañanas lentas</span></div>
-      </article>
-      <article class="story-card" onclick="openLightbox(this.querySelector('img').src)">
-        <img src="https://images.unsplash.com/photo-1564501049412-61c2a3083791?auto=format&fit=crop&w=1500&q=88" alt="Habitación">
-        <div class="story-overlay"><strong>Descanso</strong><span>Habitaciones · Suites</span></div>
-      </article>
-      <article class="story-card small" onclick="openLightbox(this.querySelector('img').src)">
-        <img src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=1100&q=88" alt="Relax">
-        <div class="story-overlay"><strong>Bienestar</strong><span>Spa · Relax</span></div>
-      </article>
-      <article class="story-card" onclick="openLightbox(this.querySelector('img').src)">
-        <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=1500&q=88" alt="Gastronomía">
-        <div class="story-overlay"><strong>Sabores</strong><span>Producto local · Cocina</span></div>
-      </article>
-    </div>
-  </section>
+    <div class="backdrop" id="backdrop" onclick="closeDrawer()"></div>
 
-  <section class="rooms" id="habitaciones">
-    <div class="container">
-      <div class="rooms-top reveal">
+    <aside class="drawer" id="drawer" aria-hidden="true">
+      <div class="drawer-head">
         <div>
-          <div class="eyebrow">Habitaciones</div>
-          <h2 class="headline">Dormir también puede ser parte del viaje.</h2>
+          <div class="eyebrow" id="drawerEyebrow">Habitaciones</div>
+          <h3 id="drawerTitle">Consultá disponibilidad</h3>
         </div>
-        <p class="copy">La información técnica queda ordenada y secundaria. Primero: foto, categoría, capacidad y motivos para elegirla.</p>
+        <button class="drawer-close" onclick="closeDrawer()">×</button>
       </div>
 
-      <div class="room-nav reveal" id="roomTabs"></div>
-
-      <div class="room-shell reveal">
-        <div class="room-media">
-          <img id="roomImage" alt="Habitación">
-          <div class="room-controls">
-            <button onclick="changeRoomPhoto(-1)">←</button>
-            <span id="roomCounter">01 / 03</span>
-            <button onclick="changeRoomPhoto(1)">→</button>
+      <div class="drawer-body">
+        <div class="room-summary" id="roomSummary">
+          <img id="drawerRoomImage" src="" alt="" />
+          <div>
+            <small>Habitación seleccionada</small
+            ><strong id="drawerRoomName"></strong>
           </div>
         </div>
 
-        <div class="room-detail">
-          <h3 id="roomName"></h3>
-          <p class="copy room-desc" id="roomDesc"></p>
-
-          <div class="facts">
-            <div class="fact"><small>Huéspedes</small><strong id="roomGuests"></strong></div>
-            <div class="fact"><small>Superficie</small><strong id="roomSize"></strong></div>
-            <div class="fact"><small>Cama</small><strong id="roomBed"></strong></div>
-            <div class="fact"><small>Vista</small><strong id="roomView"></strong></div>
-          </div>
-
-          <div class="tags" id="roomTags"></div>
-
-          <div class="room-actions">
-            <button class="btn btn-dark" onclick="openBooking()">Consultar disponibilidad</button>
-            <button class="btn btn-ghost-dark" onclick="openLightbox(document.getElementById('roomImage').src)">Ampliar foto</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="experience" id="deportes">
-    <img src="https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=2000&q=90" alt="Experiencias al aire libre">
-    <div class="container experience-inner">
-      <div class="experience-content reveal">
-        <div class="eyebrow" style="color:#d3b39f">Experiencias</div>
-        <h2 class="headline">Afuera también pasa todo.</h2>
-        <p class="copy">Deportes, aire libre y paisaje dejan de aparecer como pequeños íconos perdidos. La sección transmite movimiento, amplitud y la posibilidad de vivir el lugar más allá de la habitación.</p>
-        <div class="activity-line"><span>Tenis</span><span>Golf</span><span>Fútbol</span><span>Gimnasio</span><span>Actividades familiares</span></div>
-        <a class="btn btn-ghost-light" href="#contacto">Consultar actividades</a>
-      </div>
-    </div>
-  </section>
-
-  <section class="food" id="sabores">
-    <div class="container food-grid">
-      <div class="food-copy reveal">
-        <div class="eyebrow">Sabores</div>
-        <h2 class="headline">Comer bien también es bajar el ritmo.</h2>
-        <p class="copy">Una estética más cálida para diferenciar gastronomía del resto de la landing: producto regional, vinos, desayunos y momentos alrededor de la mesa.</p>
-        <div style="display:flex;gap:.7rem;flex-wrap:wrap">
-          <button class="btn btn-dark" onclick="openGeneric('Reservá tu mesa','Gastronomía')">Reservar una mesa</button>
-          <a class="btn btn-ghost-dark" href="#contacto">Consultar propuesta</a>
-        </div>
-      </div>
-
-      <div class="food-collage reveal">
-        <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=1100&q=88" alt="Gastronomía">
-        <img src="https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=700&q=88" alt="Vino">
-        <img src="https://images.unsplash.com/photo-1533777857889-4be7c70b33f7?auto=format&fit=crop&w=700&q=88" alt="Mesa">
-      </div>
-    </div>
-  </section>
-
-  <section class="wellness" id="relax">
-    <div class="container wellness-grid">
-      <div class="wellness-media reveal">
-        <img class="main" src="https://images.unsplash.com/photo-1544161515-4ab6ce6db874?auto=format&fit=crop&w=1100&q=88" alt="Masajes">
-        <img class="small" src="https://images.unsplash.com/photo-1600334089648-b0d9d3028eb2?auto=format&fit=crop&w=700&q=88" alt="Spa">
-      </div>
-
-      <div class="reveal">
-        <div class="eyebrow">Relax</div>
-        <h2 class="headline">Menos ruido.<br>Más aire.</h2>
-        <p class="copy">El ritmo visual también cambia: más espacio, tonos suaves y una composición tranquila para que la sección de bienestar se sienta diferente antes de leer una sola palabra.</p>
-
-        <div class="wellness-list">
-          <div class="well-row"><span>01</span><span>Piscina climatizada y espacios de descanso.</span></div>
-          <div class="well-row"><span>02</span><span>Masajes y tratamientos de bienestar.</span></div>
-          <div class="well-row"><span>03</span><span>Hidroterapia y momentos de pausa.</span></div>
-          <div class="well-row"><span>04</span><span>Yoga y experiencias frente al paisaje.</span></div>
-        </div>
-
-        <button class="btn btn-ghost-dark" onclick="openGeneric('Consultá tu turno','Bienestar')">Consultar un turno</button>
-      </div>
-    </div>
-  </section>
-
-  <section class="events" id="eventos">
-    <div class="container">
-      <div class="events-top reveal">
-        <div>
-          <div class="eyebrow" style="color:#ca9478">Eventos</div>
-          <h2 class="headline">Hay momentos que necesitan más que un salón.</h2>
-        </div>
-        <p class="copy">Casamientos, celebraciones y encuentros corporativos se presentan como una experiencia propia, con imágenes grandes y un CTA directo a consultar fecha.</p>
-      </div>
-
-      <div class="events-layout reveal">
-        <img class="main" src="https://images.unsplash.com/photo-1507504031003-b417219a0fde?auto=format&fit=crop&w=1400&q=88" alt="Evento al aire libre">
-        <div class="events-side">
-          <img src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&w=900&q=88" alt="Salón">
-          <img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=900&q=88" alt="Celebración">
-        </div>
-      </div>
-
-      <div class="event-meta reveal">
-        <div class="event-stats">
-          <div class="event-stat"><small>Espacios</small><strong>3 propuestas</strong></div>
-          <div class="event-stat"><small>Entorno</small><strong>Naturaleza</strong></div>
-          <div class="event-stat"><small>Servicio</small><strong>Gastronomía</strong></div>
-          <div class="event-stat"><small>Uso</small><strong>Social · Corporativo</strong></div>
-        </div>
-        <button class="btn btn-ghost-light" onclick="openGeneric('Consultá tu evento','Eventos')">Consultar una fecha</button>
-      </div>
-    </div>
-  </section>
-
-  <section class="contact" id="contacto">
-    <div class="container">
-      <div class="contact-grid">
-        <div class="reveal">
-          <div class="eyebrow">Contacto</div>
-          <h2 class="headline">La escapada empieza con un mensaje.</h2>
-          <p class="copy">Una salida clara y simple hacia los canales que realmente importan: disponibilidad, WhatsApp, contacto y ubicación.</p>
-
-          <div class="contact-lines">
-            <div class="contact-line"><span>WhatsApp</span><strong>+54 249 400-0000</strong></div>
-            <div class="contact-line"><span>Email</span><strong>hola@sierranativa.com.ar</strong></div>
-            <div class="contact-line"><span>Instagram</span><strong>@sierranativa</strong></div>
-            <div class="contact-line"><span>Ubicación</span><strong>Tandil · Buenos Aires</strong></div>
-          </div>
-        </div>
-
-        <form class="contact-form reveal" onsubmit="event.preventDefault(); alert('Demo: consulta enviada ✨');">
+        <form
+          onsubmit="
+            event.preventDefault();
+            alert('Demo: consulta registrada ✨');
+            closeDrawer();
+          "
+        >
           <div class="form-grid">
-            <div class="field"><label>Nombre</label><input required type="text" placeholder="Tu nombre"></div>
-            <div class="field"><label>Email / WhatsApp</label><input required type="text" placeholder="¿Cómo te contactamos?"></div>
-            <div class="field full"><label>Motivo</label><select><option>Consultar disponibilidad</option><option>Restaurante</option><option>Relax / Spa</option><option>Eventos</option></select></div>
-            <div class="field full"><label>Mensaje</label><textarea rows="4" placeholder="Contanos qué estás buscando"></textarea></div>
+            <div class="field"><label>Llegada</label><input type="date" /></div>
+            <div class="field"><label>Salida</label><input type="date" /></div>
+            <div class="field">
+              <label>Adultos</label
+              ><select>
+                <option>2</option>
+                <option>1</option>
+                <option>3</option>
+                <option>4</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>Niños</label
+              ><select>
+                <option>0</option>
+                <option>1</option>
+                <option>2</option>
+              </select>
+            </div>
+            <div class="field full">
+              <label>Nombre</label
+              ><input required type="text" placeholder="Tu nombre" />
+            </div>
+            <div class="field full">
+              <label>Email / WhatsApp</label
+              ><input
+                required
+                type="text"
+                placeholder="¿Cómo te contactamos?"
+              />
+            </div>
           </div>
-          <button class="btn btn-dark" type="submit">Enviar consulta <span>→</span></button>
+          <button
+            class="btn btn-dark"
+            type="submit"
+            style="width: 100%; margin-top: 0.5rem"
+          >
+            Enviar consulta
+          </button>
+          <a
+            class="btn btn-ghost-dark"
+            href="https://wa.me/542494000000"
+            target="_blank"
+            rel="noopener"
+            style="width: 100%; margin-top: 0.7rem"
+            >Consultar por WhatsApp</a
+          >
         </form>
       </div>
+    </aside>
 
-      <div class="map reveal">
-        <a class="btn btn-light" href="https://www.google.com/maps/search/Tandil+Buenos+Aires" target="_blank" rel="noopener">Cómo llegar</a>
-      </div>
-    </div>
-  </section>
-
-  <section class="final">
-    <img src="https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=2200&q=90" alt="Paisaje natural">
-    <div class="final-inner reveal">
-      <h2>Tu próxima pausa empieza acá.</h2>
-      <p>Una demo inmersiva pensada para que el lugar se venda primero con emoción y después con información.</p>
-      <div style="display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap">
-        <button class="btn btn-light" onclick="openBooking()">Consultar disponibilidad</button>
-        <a class="btn btn-ghost-light" href="https://wa.me/542494000000" target="_blank" rel="noopener">Hablar por WhatsApp</a>
-      </div>
-    </div>
-  </section>
-
-</main>
-
-<footer>
-  <div class="container">
-    <div class="footer-grid">
-      <div>
-        <div class="brand-name" style="font-size:1.35rem">SIERRA NATIVA</div>
-        <div class="brand-sub" style="margin-top:.55rem">Hotel Boutique · Tandil</div>
-      </div>
-      <div><h4>Navegación</h4><ul><li><a href="#lugar">El Lugar</a></li><li><a href="#habitaciones">Habitaciones</a></li><li><a href="#sabores">Sabores</a></li><li><a href="#eventos">Eventos</a></li></ul></div>
-      <div><h4>Experiencias</h4><ul><li><a href="#deportes">Deportes</a></li><li><a href="#relax">Relax</a></li><li><a href="#galeria">Galería</a></li><li><a href="#contacto">Contacto</a></li></ul></div>
-      <div><h4>Contacto</h4><ul><li>+54 249 400-0000</li><li>hola@sierranativa.com.ar</li><li>Tandil · Buenos Aires</li><li>@sierranativa</li></ul></div>
-    </div>
-    <div class="foot-note"><span>Demo conceptual — Marca, textos y datos ficticios.</span><span>Tandil · Buenos Aires · Argentina</span></div>
-  </div>
-</footer>
-
-<div class="mobile-sticky">
-  <button onclick="openBooking()">Consultar disponibilidad</button>
-  <a href="https://wa.me/542494000000" target="_blank" rel="noopener" aria-label="WhatsApp">◉</a>
-</div>
-
-<div class="backdrop" id="backdrop" onclick="closeDrawer()"></div>
-
-<aside class="drawer" id="drawer" aria-hidden="true">
-  <div class="drawer-head">
-    <div>
-      <div class="eyebrow" id="drawerEyebrow">Habitaciones</div>
-      <h3 id="drawerTitle">Consultá disponibilidad</h3>
-    </div>
-    <button class="drawer-close" onclick="closeDrawer()">×</button>
-  </div>
-
-  <div class="drawer-body">
-    <div class="room-summary" id="roomSummary">
-      <img id="drawerRoomImage" src="" alt="">
-      <div><small>Habitación seleccionada</small><strong id="drawerRoomName"></strong></div>
+    <div
+      class="lightbox"
+      id="lightbox"
+      onclick="if (event.target === this) closeLightbox();"
+    >
+      <button class="lightbox-close" onclick="closeLightbox()">×</button>
+      <img id="lightboxImage" src="" alt="Vista ampliada" />
     </div>
 
-    <form onsubmit="event.preventDefault(); alert('Demo: consulta registrada ✨'); closeDrawer();">
-      <div class="form-grid">
-        <div class="field"><label>Llegada</label><input type="date"></div>
-        <div class="field"><label>Salida</label><input type="date"></div>
-        <div class="field"><label>Adultos</label><select><option>2</option><option>1</option><option>3</option><option>4</option></select></div>
-        <div class="field"><label>Niños</label><select><option>0</option><option>1</option><option>2</option></select></div>
-        <div class="field full"><label>Nombre</label><input required type="text" placeholder="Tu nombre"></div>
-        <div class="field full"><label>Email / WhatsApp</label><input required type="text" placeholder="¿Cómo te contactamos?"></div>
-      </div>
-      <button class="btn btn-dark" type="submit" style="width:100%;margin-top:.5rem">Enviar consulta</button>
-      <a class="btn btn-ghost-dark" href="https://wa.me/542494000000" target="_blank" rel="noopener" style="width:100%;margin-top:.7rem">Consultar por WhatsApp</a>
-    </form>
-  </div>
-</aside>
+    <script>
+      const rooms = [
+        {
+          name: "Habitación Doble",
+          desc: "Una habitación luminosa y serena, pensada para una escapada en pareja. La foto manda; los datos importantes acompañan sin competir.",
+          guests: "Hasta 2",
+          size: "24 m²",
+          bed: "Queen Size",
+          view: "Jardín",
+          tags: ["Wi-Fi", "Desayuno", "Smart TV", "Caja fuerte"],
+          photos: [
+            "https://images.unsplash.com/photo-1564501049412-61c2a3083791?auto=format&fit=crop&w=1500&q=88",
+            "https://images.unsplash.com/photo-1611892440504-42a792e24d32?auto=format&fit=crop&w=1500&q=88",
+            "https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=1500&q=88",
+          ],
+        },
+        {
+          name: "Habitación Triple",
+          desc: "Una opción flexible para compartir la experiencia manteniendo comodidad, luz y un vínculo visual claro con el entorno.",
+          guests: "Hasta 3",
+          size: "30 m²",
+          bed: "Queen + individual",
+          view: "Parque",
+          tags: ["Wi-Fi", "Desayuno", "Climatización", "Smart TV"],
+          photos: [
+            "https://images.unsplash.com/photo-1591088398332-8a7791972843?auto=format&fit=crop&w=1500&q=88",
+            "https://images.unsplash.com/photo-1598928506311-c55ded91a20c?auto=format&fit=crop&w=1500&q=88",
+            "https://images.unsplash.com/photo-1609949279531-cf48d64bed89?auto=format&fit=crop&w=1500&q=88",
+          ],
+        },
+        {
+          name: "Habitación Cuádruple",
+          desc: "Pensada para familias y grupos pequeños, con mayor amplitud y una presentación que evita convertir los amenities en una pared de texto.",
+          guests: "Hasta 4",
+          size: "38 m²",
+          bed: "2 Queen",
+          view: "Parque",
+          tags: ["Familias", "Desayuno", "Wi-Fi", "Smart TV"],
+          photos: [
+            "https://images.unsplash.com/photo-1618773928121-c32242e63f39?auto=format&fit=crop&w=1500&q=88",
+            "https://images.unsplash.com/photo-1600607688969-a5bfcd646154?auto=format&fit=crop&w=1500&q=88",
+            "https://images.unsplash.com/photo-1566665797739-1674de7a421a?auto=format&fit=crop&w=1500&q=88",
+          ],
+        },
+        {
+          name: "Cabaña",
+          desc: "Más privacidad y más contacto con el entorno. Una experiencia independiente con living, galería y una identidad diferente a la habitación tradicional.",
+          guests: "Hasta 4",
+          size: "55 m²",
+          bed: "Queen + 2 individuales",
+          view: "Bosque",
+          tags: ["Living", "Cocina", "Galería", "Parrilla"],
+          photos: [
+            "https://images.unsplash.com/photo-1449158743715-0a90ebb6d2d8?auto=format&fit=crop&w=1500&q=88",
+            "https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=1500&q=88",
+            "https://images.unsplash.com/photo-1510798831971-661eb04b3739?auto=format&fit=crop&w=1500&q=88",
+          ],
+        },
+        {
+          name: "Suite",
+          desc: "Una propuesta más amplia y sofisticada, con foco en el descanso, la luz y los detalles que hacen sentir la estadía como una experiencia especial.",
+          guests: "Hasta 2",
+          size: "42 m²",
+          bed: "King Size",
+          view: "Sierras",
+          tags: ["King Size", "Bañera", "Living", "Desayuno"],
+          photos: [
+            "https://images.unsplash.com/photo-1615874959474-d609969a20ed?auto=format&fit=crop&w=1500&q=88",
+            "https://images.unsplash.com/photo-1631049307264-da0ec9d70304?auto=format&fit=crop&w=1500&q=88",
+            "https://images.unsplash.com/photo-1590490359683-658d3d23f972?auto=format&fit=crop&w=1500&q=88",
+          ],
+        },
+        {
+          name: "Suite Presidencial",
+          desc: "La categoría más exclusiva de la demo: amplitud, privacidad y una presentación que transmite valor antes de empezar a enumerar especificaciones.",
+          guests: "Hasta 2",
+          size: "62 m²",
+          bed: "King Size",
+          view: "Panorámica",
+          tags: ["Premium", "Living privado", "Bañera", "Vista panorámica"],
+          photos: [
+            "https://images.unsplash.com/photo-1631049552057-403cdb8f0658?auto=format&fit=crop&w=1500&q=88",
+            "https://images.unsplash.com/photo-1591088398332-8a7791972843?auto=format&fit=crop&w=1500&q=88",
+            "https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=1500&q=88",
+          ],
+        },
+      ];
 
-<div class="lightbox" id="lightbox" onclick="if(event.target===this) closeLightbox()">
-  <button class="lightbox-close" onclick="closeLightbox()">×</button>
-  <img id="lightboxImage" src="" alt="Vista ampliada">
-</div>
+      let roomIndex = 0;
+      let photoIndex = 0;
 
-<script>
-  const rooms = [
-    {
-      name:"Habitación Doble",
-      desc:"Una habitación luminosa y serena, pensada para una escapada en pareja. La foto manda; los datos importantes acompañan sin competir.",
-      guests:"Hasta 2", size:"24 m²", bed:"Queen Size", view:"Jardín",
-      tags:["Wi-Fi","Desayuno","Smart TV","Caja fuerte"],
-      photos:[
-        "https://images.unsplash.com/photo-1564501049412-61c2a3083791?auto=format&fit=crop&w=1500&q=88",
-        "https://images.unsplash.com/photo-1611892440504-42a792e24d32?auto=format&fit=crop&w=1500&q=88",
-        "https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=1500&q=88"
-      ]
-    },
-    {
-      name:"Habitación Triple",
-      desc:"Una opción flexible para compartir la experiencia manteniendo comodidad, luz y un vínculo visual claro con el entorno.",
-      guests:"Hasta 3", size:"30 m²", bed:"Queen + individual", view:"Parque",
-      tags:["Wi-Fi","Desayuno","Climatización","Smart TV"],
-      photos:[
-        "https://images.unsplash.com/photo-1591088398332-8a7791972843?auto=format&fit=crop&w=1500&q=88",
-        "https://images.unsplash.com/photo-1598928506311-c55ded91a20c?auto=format&fit=crop&w=1500&q=88",
-        "https://images.unsplash.com/photo-1609949279531-cf48d64bed89?auto=format&fit=crop&w=1500&q=88"
-      ]
-    },
-    {
-      name:"Habitación Cuádruple",
-      desc:"Pensada para familias y grupos pequeños, con mayor amplitud y una presentación que evita convertir los amenities en una pared de texto.",
-      guests:"Hasta 4", size:"38 m²", bed:"2 Queen", view:"Parque",
-      tags:["Familias","Desayuno","Wi-Fi","Smart TV"],
-      photos:[
-        "https://images.unsplash.com/photo-1618773928121-c32242e63f39?auto=format&fit=crop&w=1500&q=88",
-        "https://images.unsplash.com/photo-1600607688969-a5bfcd646154?auto=format&fit=crop&w=1500&q=88",
-        "https://images.unsplash.com/photo-1566665797739-1674de7a421a?auto=format&fit=crop&w=1500&q=88"
-      ]
-    },
-    {
-      name:"Cabaña",
-      desc:"Más privacidad y más contacto con el entorno. Una experiencia independiente con living, galería y una identidad diferente a la habitación tradicional.",
-      guests:"Hasta 4", size:"55 m²", bed:"Queen + 2 individuales", view:"Bosque",
-      tags:["Living","Cocina","Galería","Parrilla"],
-      photos:[
-        "https://images.unsplash.com/photo-1449158743715-0a90ebb6d2d8?auto=format&fit=crop&w=1500&q=88",
-        "https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=1500&q=88",
-        "https://images.unsplash.com/photo-1510798831971-661eb04b3739?auto=format&fit=crop&w=1500&q=88"
-      ]
-    },
-    {
-      name:"Suite",
-      desc:"Una propuesta más amplia y sofisticada, con foco en el descanso, la luz y los detalles que hacen sentir la estadía como una experiencia especial.",
-      guests:"Hasta 2", size:"42 m²", bed:"King Size", view:"Sierras",
-      tags:["King Size","Bañera","Living","Desayuno"],
-      photos:[
-        "https://images.unsplash.com/photo-1615874959474-d609969a20ed?auto=format&fit=crop&w=1500&q=88",
-        "https://images.unsplash.com/photo-1631049307264-da0ec9d70304?auto=format&fit=crop&w=1500&q=88",
-        "https://images.unsplash.com/photo-1590490359683-658d3d23f972?auto=format&fit=crop&w=1500&q=88"
-      ]
-    },
-    {
-      name:"Suite Presidencial",
-      desc:"La categoría más exclusiva de la demo: amplitud, privacidad y una presentación que transmite valor antes de empezar a enumerar especificaciones.",
-      guests:"Hasta 2", size:"62 m²", bed:"King Size", view:"Panorámica",
-      tags:["Premium","Living privado","Bañera","Vista panorámica"],
-      photos:[
-        "https://images.unsplash.com/photo-1631049552057-403cdb8f0658?auto=format&fit=crop&w=1500&q=88",
-        "https://images.unsplash.com/photo-1591088398332-8a7791972843?auto=format&fit=crop&w=1500&q=88",
-        "https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=1500&q=88"
-      ]
-    }
-  ];
-
-  let roomIndex = 0;
-  let photoIndex = 0;
-
-  function initRooms(){
-    const tabs = document.getElementById("roomTabs");
-    tabs.innerHTML = rooms.map((r,i)=>`
-      <button class="room-tab ${i===0?'active':''}" onclick="selectRoom(${i})">
-        <span>${String(i+1).padStart(2,'0')}</span>${r.name.replace('Habitación ','')}
+      function initRooms() {
+        const tabs = document.getElementById("roomTabs");
+        tabs.innerHTML = rooms
+          .map(
+            (r, i) => `
+      <button class="room-tab ${i === 0 ? "active" : ""}" onclick="selectRoom(${i})">
+        <span>${String(i + 1).padStart(2, "0")}</span>${r.name.replace("Habitación ", "")}
       </button>
-    `).join("");
-    renderRoom();
-  }
-
-  function selectRoom(i){
-    roomIndex=i; photoIndex=0;
-    document.querySelectorAll(".room-tab").forEach((tab,idx)=>tab.classList.toggle("active",idx===i));
-    renderRoom();
-  }
-
-  function renderRoom(){
-    const r=rooms[roomIndex];
-    document.getElementById("roomName").textContent=r.name;
-    document.getElementById("roomDesc").textContent=r.desc;
-    document.getElementById("roomGuests").textContent=r.guests;
-    document.getElementById("roomSize").textContent=r.size;
-    document.getElementById("roomBed").textContent=r.bed;
-    document.getElementById("roomView").textContent=r.view;
-    document.getElementById("roomTags").innerHTML=r.tags.map(t=>`<span class="tag">${t}</span>`).join("");
-    renderPhoto();
-  }
-
-  function renderPhoto(){
-    const r=rooms[roomIndex];
-    document.getElementById("roomImage").src=r.photos[photoIndex];
-    document.getElementById("roomCounter").textContent =
-      `${String(photoIndex+1).padStart(2,'0')} / ${String(r.photos.length).padStart(2,'0')}`;
-  }
-
-  function changeRoomPhoto(delta){
-    const r=rooms[roomIndex];
-    photoIndex=(photoIndex+delta+r.photos.length)%r.photos.length;
-    renderPhoto();
-  }
-
-  function openBooking(){
-    const r=rooms[roomIndex];
-    document.getElementById("drawerEyebrow").textContent="Habitaciones";
-    document.getElementById("drawerTitle").textContent="Consultá disponibilidad";
-    document.getElementById("roomSummary").style.display="grid";
-    document.getElementById("drawerRoomName").textContent=r.name;
-    document.getElementById("drawerRoomImage").src=r.photos[0];
-    openDrawer();
-  }
-
-  function openGeneric(title,eyebrow){
-    document.getElementById("drawerEyebrow").textContent=eyebrow;
-    document.getElementById("drawerTitle").textContent=title;
-    document.getElementById("roomSummary").style.display="none";
-    openDrawer();
-  }
-
-  function openDrawer(){
-    document.getElementById("drawer").classList.add("open");
-    document.getElementById("backdrop").classList.add("open");
-    document.body.classList.add("locked");
-  }
-
-  function closeDrawer(){
-    document.getElementById("drawer").classList.remove("open");
-    document.getElementById("backdrop").classList.remove("open");
-    document.body.classList.remove("locked");
-  }
-
-  function openLightbox(src){
-    document.getElementById("lightboxImage").src=src;
-    document.getElementById("lightbox").classList.add("open");
-    document.body.classList.add("locked");
-  }
-
-  function closeLightbox(){
-    document.getElementById("lightbox").classList.remove("open");
-    document.body.classList.remove("locked");
-  }
-
-  function toggleMenu(){
-    document.getElementById("mobileMenu").classList.toggle("open");
-  }
-
-  // Immersive gallery controls
-  const storyTrack = document.getElementById("storyTrack");
-  const storyCards = storyTrack ? [...storyTrack.querySelectorAll(".story-card")] : [];
-  let storyIndex = 0;
-
-  function updateStoryCounter(){
-    const counter = document.getElementById("storyCounter");
-    if(counter && storyCards.length){
-      counter.textContent = `${String(storyIndex + 1).padStart(2,'0')} / ${String(storyCards.length).padStart(2,'0')}`;
-    }
-  }
-
-  function moveStory(direction){
-    if(!storyTrack || !storyCards.length) return;
-    storyIndex = (storyIndex + direction + storyCards.length) % storyCards.length;
-    storyCards[storyIndex].scrollIntoView({
-      behavior:"smooth",
-      block:"nearest",
-      inline:"start"
-    });
-    updateStoryCounter();
-  }
-
-  if(storyTrack && storyCards.length){
-    let scrollTimer;
-    storyTrack.addEventListener("scroll", ()=>{
-      clearTimeout(scrollTimer);
-      scrollTimer = setTimeout(()=>{
-        const trackLeft = storyTrack.getBoundingClientRect().left;
-        let closest = 0;
-        let best = Infinity;
-        storyCards.forEach((card,i)=>{
-          const dist = Math.abs(card.getBoundingClientRect().left - trackLeft);
-          if(dist < best){ best = dist; closest = i; }
-        });
-        storyIndex = closest;
-        updateStoryCounter();
-      },80);
-    },{passive:true});
-    updateStoryCounter();
-  }
-
-  const header=document.getElementById("header");
-  const navLinks=[...document.querySelectorAll(".nav a[data-sec]")];
-  const sectionIds=["galeria","lugar","habitaciones","deportes","sabores","relax","eventos","contacto"];
-
-  function handleScroll(){
-    header.classList.toggle("scrolled",window.scrollY>55);
-    let current="galeria";
-    sectionIds.forEach(id=>{
-      const el=document.getElementById(id);
-      if(el && window.scrollY>=el.offsetTop-180) current=id;
-    });
-    navLinks.forEach(a=>a.classList.toggle("active",a.dataset.sec===current));
-  }
-
-  window.addEventListener("scroll",handleScroll,{passive:true});
-  handleScroll();
-
-  const observer=new IntersectionObserver(entries=>{
-    entries.forEach(entry=>{
-      if(entry.isIntersecting){
-        entry.target.classList.add("visible");
-        observer.unobserve(entry.target);
+    `,
+          )
+          .join("");
+        renderRoom();
       }
-    });
-  },{threshold:.12});
-  document.querySelectorAll(".reveal").forEach(el=>observer.observe(el));
 
-  document.addEventListener("keydown",e=>{
-    if(e.key==="Escape"){
-      closeDrawer();
-      closeLightbox();
-      document.getElementById("mobileMenu").classList.remove("open");
-    }
-  });
+      function selectRoom(i) {
+        roomIndex = i;
+        photoIndex = 0;
+        document
+          .querySelectorAll(".room-tab")
+          .forEach((tab, idx) => tab.classList.toggle("active", idx === i));
+        renderRoom();
+      }
 
-  initRooms();
-</script>
-</body>
+      function renderRoom() {
+        const r = rooms[roomIndex];
+        document.getElementById("roomName").textContent = r.name;
+        document.getElementById("roomDesc").textContent = r.desc;
+        document.getElementById("roomGuests").textContent = r.guests;
+        document.getElementById("roomSize").textContent = r.size;
+        document.getElementById("roomBed").textContent = r.bed;
+        document.getElementById("roomView").textContent = r.view;
+        document.getElementById("roomTags").innerHTML = r.tags
+          .map((t) => `<span class="tag">${t}</span>`)
+          .join("");
+        renderPhoto();
+      }
+
+      function renderPhoto() {
+        const r = rooms[roomIndex];
+        document.getElementById("roomImage").src = r.photos[photoIndex];
+        document.getElementById("roomCounter").textContent =
+          `${String(photoIndex + 1).padStart(2, "0")} / ${String(r.photos.length).padStart(2, "0")}`;
+      }
+
+      function changeRoomPhoto(delta) {
+        const r = rooms[roomIndex];
+        photoIndex = (photoIndex + delta + r.photos.length) % r.photos.length;
+        renderPhoto();
+      }
+
+      function openBooking() {
+        const r = rooms[roomIndex];
+        document.getElementById("drawerEyebrow").textContent = "Habitaciones";
+        document.getElementById("drawerTitle").textContent =
+          "Consultá disponibilidad";
+        document.getElementById("roomSummary").style.display = "grid";
+        document.getElementById("drawerRoomName").textContent = r.name;
+        document.getElementById("drawerRoomImage").src = r.photos[0];
+        openDrawer();
+      }
+
+      function openGeneric(title, eyebrow) {
+        document.getElementById("drawerEyebrow").textContent = eyebrow;
+        document.getElementById("drawerTitle").textContent = title;
+        document.getElementById("roomSummary").style.display = "none";
+        openDrawer();
+      }
+
+      function openDrawer() {
+        document.getElementById("drawer").classList.add("open");
+        document.getElementById("backdrop").classList.add("open");
+        document.body.classList.add("locked");
+      }
+
+      function closeDrawer() {
+        document.getElementById("drawer").classList.remove("open");
+        document.getElementById("backdrop").classList.remove("open");
+        document.body.classList.remove("locked");
+      }
+
+      function openLightbox(src) {
+        document.getElementById("lightboxImage").src = src;
+        document.getElementById("lightbox").classList.add("open");
+        document.body.classList.add("locked");
+      }
+
+      function closeLightbox() {
+        document.getElementById("lightbox").classList.remove("open");
+        document.body.classList.remove("locked");
+      }
+
+      function toggleMenu() {
+        document.getElementById("mobileMenu").classList.toggle("open");
+      }
+
+      // Immersive gallery controls
+      const storyTrack = document.getElementById("storyTrack");
+      const storyCards = storyTrack
+        ? [...storyTrack.querySelectorAll(".story-card")]
+        : [];
+      let storyIndex = 0;
+
+      function updateStoryCounter() {
+        const counter = document.getElementById("storyCounter");
+        if (counter && storyCards.length) {
+          counter.textContent = `${String(storyIndex + 1).padStart(2, "0")} / ${String(storyCards.length).padStart(2, "0")}`;
+        }
+      }
+
+      function moveStory(direction) {
+        if (!storyTrack || !storyCards.length) return;
+        storyIndex =
+          (storyIndex + direction + storyCards.length) % storyCards.length;
+        storyCards[storyIndex].scrollIntoView({
+          behavior: "smooth",
+          block: "nearest",
+          inline: "start",
+        });
+        updateStoryCounter();
+      }
+
+      if (storyTrack && storyCards.length) {
+        let scrollTimer;
+        storyTrack.addEventListener(
+          "scroll",
+          () => {
+            clearTimeout(scrollTimer);
+            scrollTimer = setTimeout(() => {
+              const trackLeft = storyTrack.getBoundingClientRect().left;
+              let closest = 0;
+              let best = Infinity;
+              storyCards.forEach((card, i) => {
+                const dist = Math.abs(
+                  card.getBoundingClientRect().left - trackLeft,
+                );
+                if (dist < best) {
+                  best = dist;
+                  closest = i;
+                }
+              });
+              storyIndex = closest;
+              updateStoryCounter();
+            }, 80);
+          },
+          { passive: true },
+        );
+        updateStoryCounter();
+      }
+
+      const header = document.getElementById("header");
+      const navLinks = [...document.querySelectorAll(".nav a[data-sec]")];
+      const sectionIds = [
+        "galeria",
+        "lugar",
+        "habitaciones",
+        "deportes",
+        "sabores",
+        "relax",
+        "eventos",
+        "contacto",
+      ];
+
+      function handleScroll() {
+        header.classList.toggle("scrolled", window.scrollY > 55);
+        let current = "galeria";
+        sectionIds.forEach((id) => {
+          const el = document.getElementById(id);
+          if (el && window.scrollY >= el.offsetTop - 180) current = id;
+        });
+        navLinks.forEach((a) =>
+          a.classList.toggle("active", a.dataset.sec === current),
+        );
+      }
+
+      window.addEventListener("scroll", handleScroll, { passive: true });
+      handleScroll();
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("visible");
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.12 },
+      );
+      document
+        .querySelectorAll(".reveal")
+        .forEach((el) => observer.observe(el));
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") {
+          closeDrawer();
+          closeLightbox();
+          document.getElementById("mobileMenu").classList.remove("open");
+        }
+      });
+
+      initRooms();
+    </script>
+  </body>
 </html>
