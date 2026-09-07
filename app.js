@@ -275,6 +275,16 @@
   // Reveal is optional; headings remain readable without JS or with reduced motion.
   if ('IntersectionObserver' in window) {
     if (!reduced.matches) root.classList.add('reveal-ready');
+    const footerObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-in-view');
+          footerObserver.unobserve(entry.target);
+        }
+      });
+    }, {threshold:.15});
+    footerObserver.observe($('.footer'));
+
     const revealObserver = new IntersectionObserver(entries => entries.forEach(entry => {
       if (entry.isIntersecting) {entry.target.classList.add('is-visible');revealObserver.unobserve(entry.target);}
     }), {threshold:.08});
