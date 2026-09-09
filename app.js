@@ -252,25 +252,84 @@
     requestAnimationFrame(() => {$('#contacto').setAttribute('tabindex','-1');$('#contacto').focus({preventScroll:true});});
   });
 
-  // Fill only after the international number is explicitly confirmed.
-  const CONTACT = { phoneDisplay:'2494 001904', whatsappE164:'' };
-  const phoneButton = $('.copy-phone');
-  if (/^[1-9]\d{7,14}$/.test(CONTACT.whatsappE164)) {
-    phoneButton.title='Abrir WhatsApp';
-    $('.copy-feedback').textContent='Abrir conversación';
+  // Public contacts are edited in contact-config.js. Never infer country prefixes.
+  const contacts = (window.NAMI_CONTACTS || []).filter(contact =>
+    typeof contact.phoneDisplay === 'string' && contact.phoneDisplay.trim()
+  );
+  const isWhatsApp = contact => /^[1-9]\d{7,14}$/.test(contact.whatsappE164 || '');
+  const whatsappURL = contact => `https://wa.me/${contact.whatsappE164}?text=${encodeURIComponent('Hola NAMI, me gustaría conversar sobre un proyecto.')}`;
+  const floatLink = $('.whatsapp-float');
+  const phoneContainer = $('.contact-phones');
+  if (contacts.length) {
+    const label = document.createElement('span');
+    label.className = 'eyebrow';
+    label.textContent = 'WHATSAPP';
+    phoneContainer.replaceChildren(label);
+    contacts.forEach(contact => {
+      const row = document.createElement('div');
+      row.className = 'phone-entry';
+      if (contacts.length > 1) {
+        const name = document.createElement('span');
+        name.className = 'phone-name';
+        name.textContent = contact.name;
+        row.append(name);
+      }
+      if (isWhatsApp(contact)) {
+        const link = document.createElement('a');
+        link.href = whatsappURL(contact);
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+        link.textContent = `${contact.phoneDisplay} ↗`;
+        link.setAttribute('aria-label', `Escribir por WhatsApp a ${contact.name}: ${contact.phoneDisplay}`);
+        row.append(link);
+      } else {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'copy-phone';
+        button.textContent = contact.phoneDisplay;
+        button.setAttribute('aria-label', `Copiar número de ${contact.name}: ${contact.phoneDisplay}`);
+        const feedback = document.createElement('small');
+        feedback.className = 'copy-feedback';
+        feedback.setAttribute('role', 'status');
+        feedback.textContent = 'Copiar número para usar en WhatsApp';
+        button.addEventListener('click', async () => {
+          try {
+            await navigator.clipboard.writeText(contact.phoneDisplay);
+            feedback.textContent = 'Número copiado ✓';
+          } catch {
+            feedback.textContent = `Podés seleccionar y copiar el número: ${contact.phoneDisplay}`;
+          }
+        });
+        row.append(button, feedback);
+      }
+      phoneContainer.append(row);
+    });
+    if (isWhatsApp(contacts[0])) {
+      floatLink.href = whatsappURL(contacts[0]);
+      floatLink.target = '_blank';
+      floatLink.rel = 'noopener noreferrer';
+      floatLink.setAttribute('aria-label', 'Escribir a NAMI por WhatsApp');
+    }
   }
-  phoneButton.addEventListener('click', async () => {
-    if (/^[1-9]\d{7,14}$/.test(CONTACT.whatsappE164)) {
-      window.open(`https://wa.me/${CONTACT.whatsappE164}`, '_blank', 'noopener,noreferrer');
-      return;
-    }
-    try {
-      await navigator.clipboard.writeText(CONTACT.phoneDisplay);
-      $('.copy-feedback').textContent='Número copiado ✓';
-    } catch {
-      $('.copy-feedback').textContent='Número: 2494 001904. Podés seleccionarlo para copiar.';
-    }
+  floatLink.addEventListener('click', () => {
+    if (floatLink.hash !== '#contacto') return;
+    const contact = $('#contacto');
+    contact.setAttribute('tabindex', '-1');
+    contact.focus({preventScroll: true});
   });
+  // Avoid duplicating the contact action or covering the footer.
+  if ('IntersectionObserver' in window) {
+    const visibleContacts = new Set();
+    const contactObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) visibleContacts.add(entry.target);
+        else visibleContacts.delete(entry.target);
+      });
+      floatLink.hidden = visibleContacts.size > 0;
+    });
+    contactObserver.observe($('#contacto'));
+    contactObserver.observe($('.footer'));
+  }
 
   // Reveal is optional; headings remain readable without JS or with reduced motion.
   if ('IntersectionObserver' in window) {
@@ -299,7 +358,7 @@
         else link.removeAttribute('aria-current');
       });});
     }, {rootMargin:'-20% 0px -60%'});
-    ['servicios','proyectos','nosotros','contacto','vision','proceso','inicio'].forEach(id => sectionObserver.observe(document.getElementById(id)));
+    ['servicios','soluciones','proyectos','nosotros','contacto','vision','proceso','inicio'].forEach(id => sectionObserver.observe(document.getElementById(id)));
   }
 
   // Keep the standard pointer; use a contextual companion only over project previews.
