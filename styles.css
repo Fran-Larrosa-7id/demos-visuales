@@ -226,7 +226,7 @@ button {
   background: var(--cyan);
   transform: scaleX(0);
   transform-origin: left;
-  transition: transform 0.3s;
+  transition: transform 0.22s var(--ease);
 }
 .desktop-nav a:hover::after,
 .desktop-nav a[aria-current]::after {
@@ -236,10 +236,18 @@ button {
   border-bottom: 1px solid #777;
   margin-left: 28px;
   font-weight: 600;
+  transition: border-color 0.18s var(--ease);
+}
+.header-contact:hover {
+  border-color: var(--cyan);
 }
 .header-contact span {
   font-size: 25px;
   color: var(--cyan);
+  transition: transform 0.18s var(--ease);
+}
+.header-contact:hover span {
+  transform: translate(2px, -2px);
 }
 .menu-toggle {
   display: none;
@@ -464,7 +472,7 @@ button {
 .text-link span {
   font-size: 25px;
   color: var(--cyan);
-  transition: transform 0.3s;
+  transition: transform 0.18s var(--ease);
 }
 .text-link:hover span {
   transform: translate(3px, -3px);
@@ -821,6 +829,10 @@ button {
   background: none;
   text-align: left;
   padding: 0;
+  transition: transform 0.12s var(--ease);
+}
+.project-open:active {
+  transform: scale(0.985);
 }
 .project-visual {
   position: relative;
@@ -1416,13 +1428,15 @@ button {
   margin-top: 42px;
   min-height: 64px;
   transition:
-    background 0.3s,
-    color 0.3s;
+    background 0.22s var(--ease),
+    color 0.22s var(--ease),
+    transform 0.14s var(--ease);
 }
 .contact-cta > span {
   font-size: 28px;
   line-height: 1;
   color: var(--cyan);
+  transition: color 0.22s var(--ease);
 }
 .contact-cta:hover {
   background: white;
@@ -1430,6 +1444,12 @@ button {
 }
 .contact-cta:hover > span {
   color: black;
+}
+.contact-cta:active {
+  transform: scale(0.98);
+}
+.magnetic {
+  transition: transform 0.15s var(--ease);
 }
 .contact-details {
   display: grid;
@@ -1574,6 +1594,21 @@ button {
   opacity: 1;
   transform: none;
 }
+.reveal-ready .solutions-grid > article[data-reveal] {
+  transition-delay: calc((var(--stagger-index, 0)) * 70ms);
+}
+.reveal-ready .why-reasons > article[data-reveal] {
+  transition-delay: calc((var(--stagger-index, 0)) * 80ms);
+}
+.solutions-grid > article:nth-child(1) { --stagger-index: 0; }
+.solutions-grid > article:nth-child(2) { --stagger-index: 1; }
+.solutions-grid > article:nth-child(3) { --stagger-index: 2; }
+.solutions-grid > article:nth-child(4) { --stagger-index: 3; }
+.solutions-grid > article:nth-child(5) { --stagger-index: 4; }
+.solutions-grid > article:nth-child(6) { --stagger-index: 5; }
+.why-reasons > article:nth-child(1) { --stagger-index: 0; }
+.why-reasons > article:nth-child(2) { --stagger-index: 1; }
+.why-reasons > article:nth-child(3) { --stagger-index: 2; }
 @media (hover: hover) and (pointer: fine) and (min-width: 1000px) {
   .team-grid:has(.person-francisco:hover) {
     grid-template-columns: 1.12fr 0.88fr;
@@ -2700,9 +2735,15 @@ button {
 .copy-feedback { font-size: .875rem; }
 .contact-details .eyebrow { font-size: .875rem; }
 .contact-details .phone-number { font-size: inherit; }
-.whatsapp-float { position: fixed; z-index: 40; right: max(22px, env(safe-area-inset-right)); bottom: calc(22px + env(safe-area-inset-bottom)); display: inline-flex; align-items: center; gap: 10px; padding: 13px 18px; min-height: 52px; border: 1px solid #485963; border-radius: 100px; background: #10171cf5; color: white; box-shadow: 0 6px 28px #0005; font-size: .875rem; font-weight: 500; transition: border-color .2s, background .2s; }
-.whatsapp-float svg { color: var(--cyan); flex-shrink: 0; }
-.whatsapp-float:hover { background: #182b36; border-color: var(--cyan); }
+.whatsapp-float { position: fixed; z-index: 40; right: max(22px, env(safe-area-inset-right)); bottom: calc(22px + env(safe-area-inset-bottom)); display: inline-flex; align-items: center; gap: 12px; padding: 15px 22px 15px 18px; min-height: 54px; border: 1px solid var(--line); border-radius: 0; background: var(--ink); color: white; box-shadow: 0 14px 34px #0007; font-size: .8125rem; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; opacity: 0; transition: background .25s var(--ease), border-color .25s var(--ease), color .25s var(--ease), transform .14s var(--ease); animation: whatsapp-float-in .38s var(--ease) .2s forwards; }
+@keyframes whatsapp-float-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.whatsapp-float svg { color: var(--cyan); flex-shrink: 0; transition: color .25s var(--ease); }
+.whatsapp-float:hover { background: var(--cyan); border-color: var(--cyan); color: var(--ink); }
+.whatsapp-float:hover svg { color: var(--ink); }
+.whatsapp-float:active { transform: scale(.96); }
 .whatsapp-float[hidden], body.menu-open .whatsapp-float, body:has(dialog[open]) .whatsapp-float { display: none; }
 @media (max-height: 900px) and (min-width: 801px) {
   .hero-track { height: auto; min-height: 0; }
@@ -2724,9 +2765,9 @@ button {
   .solutions-grid { grid-template-columns: 1fr; }
   .solutions-grid article { padding-block: 24px; }
   .solutions-bottom .text-link { gap: 20px; }
-  .whatsapp-float { right: max(16px, env(safe-area-inset-right)); bottom: calc(16px + env(safe-area-inset-bottom)); padding: 13px; }
+  .whatsapp-float { right: max(16px, env(safe-area-inset-right)); bottom: calc(16px + env(safe-area-inset-bottom)); width: 52px; min-height: 52px; padding: 0; justify-content: center; gap: 0; }
   .whatsapp-float > span { display: none; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .whatsapp-float { transition: none; }
+  .whatsapp-float { transition: none; animation: none; opacity: 1; }
 }
